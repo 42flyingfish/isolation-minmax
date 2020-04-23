@@ -1,5 +1,6 @@
 #include "agent.h"
 #include "board.h"
+#include "interface.h"
 
 #include <atomic> // for std::atomic<bool> 
 #include <chrono> // for std::chrono::seconds
@@ -21,11 +22,11 @@ void getAiTurn(const Board board) {
 // Also accepts an early notification through the condition_variable
 //    so that it does not always take the full alloted time
 void wrapper(const Board board) {
-	std::mutex m;
+	std::mutex m, critical;
 	std::condition_variable cv;
 	std::atomic<bool> flag {false};
 
-	std::thread third(minMax, std::ref(cv), std::ref(flag), board);
+	std::thread third(minMax, std::ref(cv), std::ref(flag), board, std::ref(critical));
 	third.detach();
 
 	std::unique_lock<std::mutex> l{m};
@@ -35,7 +36,8 @@ void wrapper(const Board board) {
 		flag = true;
 		std::cout << "Tick tock!\n";
 		// waiting for minMax to finish
-		cv.wait(l); 
+		critical.lock();
+		critical.unlock();
 	} else {
 		std::cout << "Algorithm returned Early\n";
 	}
@@ -43,105 +45,111 @@ void wrapper(const Board board) {
 }
 
 
-void minMax(std::condition_variable & cv, std::atomic<bool> & flag, Board board) {
+void minMax(std::condition_variable & cv, std::atomic<bool> & flag, Board board, std::mutex & critical) {
+
+	critical.lock();
 
 	// init alpha beta
 	int alpha{std::numeric_limits<int>::min()};
 	int beta{std::numeric_limits<int>::max()};
 
-	for (int i=0; i <= 1000; ++i) {
+	for (int i=0; i <= 0; ++i) {
 		if (flag) {
 			std::cout << i << "Exiting loop\n";
 			break;
 		}
 		try {
+			/*
 			// move down right
 			for (int j = 9 + board.player; j < 63; j+=9) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
+			if(board.board.test(j)) {
+			break;
 			}
+			board.player = j;
+			board.board.set(j);
+			algoMin(flag, i, alpha, beta, board);
+			board.board.reset(j);
+			}
+			*/
 
+			/*
 			// move up left
 			for (int j = -9 + board.player; j > 0; j-=9) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
+			if(board.board.test(j)) {
+			break;
+			}
+			board.player = j;
+			board.board.set(j);
+			algoMin(flag, i, alpha, beta, board);
+			board.board.reset(j);
 			}
 
 			// move down left
 			for (int j = 7 + board.player; j < 63; j+=7) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
+			if(board.board.test(j)) {
+			break;
+			}
+			board.player = j;
+			board.board.set(j);
+			algoMin(flag, i, alpha, beta, board);
+			board.board.reset(j);
 			}
 
 			// move up right
 			for (int j = -7 + board.player; j > 0; j-=7) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
+			if(board.board.test(j)) {
+			break;
+			}
+			board.player = j;
+			board.board.set(j);
+			algoMin(flag, i, alpha, beta, board);
+			board.board.reset(j);
 			}
 
 			// move down
 			for (int j = 8 + board.player; j < 63; j+=8) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
+			if(board.board.test(j)) {
+			break;
+			}
+			board.player = j;
+			board.board.set(j);
+			algoMin(flag, i, alpha, beta, board);
+			board.board.reset(j);
 			}
 
 			// move up
 			for (int j = -8 + board.player; j > 0; j-=8) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
+			if(board.board.test(j)) {
+			break;
+			}
+			board.player = j;
+			board.board.set(j);
+			algoMin(flag, i, alpha, beta, board);
+			board.board.reset(j);
 			}
 
 			// move left
 			for (int j = board.player -1; j%8 > 0; --j) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
+			if(board.board.test(j)) {
+			break;
+			}
+			board.player = j;
+			board.board.set(j);
+			algoMin(flag, i, alpha, beta, board);
+			board.board.reset(j);
 			}
 
 			// move right
 			for (int j = board.player +1; j%8 > 0; ++j) {
-				if(board.board.test(j)) {
-					break;
-				}
-				board.player = j;
-				board.board.set(j);
-				algoMin(flag, i, alpha, beta, board);
-				board.board.reset(j);
-			}
+			if(board.board.test(j)) {
+			break;
+	}
+	board.player = j;
+	board.board.set(j);
+	algoMin(flag, i, alpha, beta, board);
+	board.board.reset(j);
+	}
+	*/
 
 		} catch(std::runtime_error & e) {
 			std::cout << i << "Failure\n";
@@ -149,11 +157,14 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, Board board)
 		}
 	}
 	// alert the caller that we have finished
+	std::cout << "Exiting\n";
+	critical.unlock();
 	cv.notify_one();
 }
 
 void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
 	if (depth == 0) {
+		printBoard(board);
 		return;
 	}
 	if (flag) {
@@ -168,7 +179,7 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
@@ -179,7 +190,7 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
@@ -190,7 +201,7 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
@@ -201,7 +212,7 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
@@ -212,7 +223,7 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
@@ -223,7 +234,7 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
@@ -234,7 +245,7 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
@@ -245,18 +256,19 @@ void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			}
 			board.opponent = j;
 			board.board.set(j);
-			algoMin(flag, i, alpha, beta, board);
+			algoMax(flag, i, alpha, beta, board);
 			board.board.reset(j);
 		}
 
 	}
-	 catch(std::runtime_error & e) {
+	catch(std::runtime_error & e) {
 		throw e;
 	}
 }
 
 void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
 	if (depth == 0) {
+		printBoard(board);
 		return;
 	}
 	if (flag) {
