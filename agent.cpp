@@ -10,6 +10,8 @@
 #include <thread> // to run the timeout and minMax function in threads
 #include <limits> // to init alpha/beta small/big number
 
+// std::vector<int> log;
+
 // returns a value to move
 void getAiTurn(const Board board) {
 	std::cout << "Hello\n";
@@ -163,115 +165,8 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 
 void algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
 	if (depth == 0) {
-//		printBoard(board);
-		return;
-	}
-	if (flag) {
-		throw std::runtime_error("Timeout");
-	}
-	try {
-		int i = depth-1;
-
-		// move down right
-		for (int j = 9 + board.player; j%8 > board.player%8 && j < 63; j+=9) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-		// move up left
-		for (int j = -9 + board.player; j%8 < board.player%8 && j > 0; j-=9) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-		// move down left
-		for (int j = 7 + board.player; j%8 < board.player%8  && j < 63; j+=7) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next  = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-		// move up right
-		for (int j = -7 + board.player; j%8 > board.player%8 && j > 0; j-=7) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-		// move down
-		for (int j = 8 + board.player; j < 63; j+=8) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-		// move up
-		for (int j = -8 + board.player; j > 0; j-=8) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-
-		// move left
-		for (int j = board.player -1; j%8 < 7 && j > 0; --j) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-
-		// move right
-		for (int j = board.player +1; j%8 > 0; ++j) {
-			if(board.board.test(j)) {
-				break;
-			}
-			Board next = board;
-			next.player = j;
-			next.board.set(j);
-			algoMax(flag, i, alpha, beta, next);
-		}
-
-
-	}
-	catch(std::runtime_error & e) {
-		throw e;
-	}
-}
-
-void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
-	if (depth == 0) {
-//		printBoard(board);
+		//printBoard(board, log);
+		std::cout << "MIN " << evaluate(board) << '\n';
 		return;
 	}
 	if (flag) {
@@ -288,7 +183,7 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next = board;
 			next.opponent = j;
 			next.board.set(j);
-			algoMin(flag, i, alpha, beta, next);
+			algoMax(flag, i, alpha, beta, next);
 		}
 
 		// move up left
@@ -299,7 +194,7 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next = board;
 			next.opponent = j;
 			next.board.set(j);
-			algoMin(flag, i, alpha, beta, next);
+			algoMax(flag, i, alpha, beta, next);
 		}
 
 		// move down left
@@ -310,7 +205,7 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next  = board;
 			next.opponent = j;
 			next.board.set(j);
-			algoMin(flag, i, alpha, beta, next);
+			algoMax(flag, i, alpha, beta, next);
 		}
 
 		// move up right
@@ -321,7 +216,7 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next = board;
 			next.opponent = j;
 			next.board.set(j);
-			algoMin(flag, i, alpha, beta, next);
+			algoMax(flag, i, alpha, beta, next);
 		}
 
 		// move down
@@ -332,7 +227,7 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next = board;
 			next.opponent = j;
 			next.board.set(j);
-			algoMin(flag, i, alpha, beta, next);
+			algoMax(flag, i, alpha, beta, next);
 		}
 
 		// move up
@@ -343,7 +238,7 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next = board;
 			next.opponent = j;
 			next.board.set(j);
-			algoMin(flag, i, alpha, beta, next);
+			algoMax(flag, i, alpha, beta, next);
 		}
 
 
@@ -355,7 +250,7 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next = board;
 			next.opponent = j;
 			next.board.set(j);
-			algoMin(flag, i, alpha, beta, next);
+			algoMax(flag, i, alpha, beta, next);
 		}
 
 
@@ -367,6 +262,115 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 			Board next = board;
 			next.opponent = j;
 			next.board.set(j);
+			algoMax(flag, i, alpha, beta, next);
+		}
+
+
+	}
+	catch(std::runtime_error & e) {
+		throw e;
+	}
+}
+
+void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
+	if (depth == 0) {
+		//printBoard(board, log);
+		std::cout << "MAX" << evaluate(board) << '\n';
+		return;
+	}
+	if (flag) {
+		throw std::runtime_error("Timeout");
+	}
+	try {
+		int i = depth-1;
+
+		// move down right
+		for (int j = 9 + board.player; j%8 > board.player%8 && j < 63; j+=9) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.player = j;
+			next.board.set(j);
+			algoMin(flag, i, alpha, beta, next);
+		}
+
+		// move up left
+		for (int j = -9 + board.player; j%8 < board.player%8 && j > 0; j-=9) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.player = j;
+			next.board.set(j);
+			algoMin(flag, i, alpha, beta, next);
+		}
+
+		// move down left
+		for (int j = 7 + board.player; j%8 < board.player%8  && j < 63; j+=7) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next  = board;
+			next.player = j;
+			next.board.set(j);
+			algoMin(flag, i, alpha, beta, next);
+		}
+
+		// move up right
+		for (int j = -7 + board.player; j%8 > board.player%8 && j > 0; j-=7) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.player = j;
+			next.board.set(j);
+			algoMin(flag, i, alpha, beta, next);
+		}
+
+		// move down
+		for (int j = 8 + board.player; j < 63; j+=8) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.player = j;
+			next.board.set(j);
+			algoMin(flag, i, alpha, beta, next);
+		}
+
+		// move up
+		for (int j = -8 + board.player; j > 0; j-=8) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.player = j;
+			next.board.set(j);
+			algoMin(flag, i, alpha, beta, next);
+		}
+
+
+		// move left
+		for (int j = board.player -1; j%8 < 7 && j > 0; --j) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.player = j;
+			next.board.set(j);
+			algoMin(flag, i, alpha, beta, next);
+		}
+
+
+		// move right
+		for (int j = board.player +1; j%8 > 0; ++j) {
+			if(board.board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.player = j;
+			next.board.set(j);
 			algoMin(flag, i, alpha, beta, next);
 		}
 
@@ -374,4 +378,81 @@ void algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boa
 	} catch(std::runtime_error & e) {
 		throw e;
 	}
+}
+
+
+int evaluate(const Board board) {
+	int score = count(board, board.opponent) - count(board, board.player);
+	return score;
+	
+}
+
+int count(const Board board, const int playerPosition) {
+	int localSum = 0;
+	// move down right
+	for (int j = 9 + playerPosition; j%8 > playerPosition%8 && j < 63; j+=9) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+
+	// move up left
+	for (int j = -9 + playerPosition; j%8 < playerPosition%8 && j > 0; j-=9) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+
+	// move down left
+	for (int j = 7 + playerPosition; j%8 < playerPosition%8  && j < 63; j+=7) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+
+	// move up right
+	for (int j = -7 + playerPosition; j%8 > playerPosition%8 && j > 0; j-=7) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+
+	// move down
+	for (int j = 8 + playerPosition; j < 63; j+=8) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+
+	// move up
+	for (int j = -8 + playerPosition; j > 0; j-=8) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+
+
+	// move left
+	for (int j = playerPosition -1; j%8 < 7 && j > 0; --j) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+
+
+	// move right
+	for (int j = playerPosition +1; j%8 > 0; ++j) {
+		if(board.board.test(j)) {
+			break;
+		}
+		++localSum;
+	}
+	return localSum;
 }
