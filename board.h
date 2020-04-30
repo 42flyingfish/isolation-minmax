@@ -3,12 +3,25 @@
 
 #include <bitset>
 
-struct Board {
-	std::bitset<64> board;
-	int computer;
-	int opponent;
+class Board {
+	private:
+		std::bitset<64> board;
+		int computer;
+		int opponent;
 
-	Board();
+	public:
+		Board();
+		
+		void moveComputer(const int);
+		void moveOpponent(const int);
+		bool test(const size_t) const;
+
+		int getComputer() const;
+		int getOpponent() const;
+
+
+		// used only with agent vs agent testing
+		void swapPlayer();
 };
 
 #endif

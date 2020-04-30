@@ -11,10 +11,10 @@ void printBoard(const Board board, const std::vector<int> log) {
 		std::cout << char('A' + i);
 		for (int j = 0; j < 8; ++j) {
 			int index = i*8+j;
-			if (board.board.test(index)) {
-				if (index == board.computer) {
+			if (board.test(index)) {
+				if (index == board.getComputer()) {
 					std::cout << ' ' << 'X';
-				} else if (index == board.opponent) {
+				} else if (index == board.getOpponent()) {
 					std::cout << ' ' << 'O';
 				} else {
 					std::cout << ' ' << '#';
@@ -74,17 +74,17 @@ bool computerStartGame() {
 
 bool validMove(const Board board, const int move) {
 	// space is occuppied
-	if (board.board.test(move)) {
+	if (board.test(move)) {
 		return false;
 		// check if in same collum
-	} else if (board.opponent % 8 == move % 8) {
-		if (board.opponent > move) {
+	} else if (board.getOpponent() % 8 == move % 8) {
+		if (board.getOpponent() > move) {
 			return validUp(board, move);
 		} else {
 			return validDown(board, move);
 		}
-	} else if (board.opponent / 8 == move / 8) {
-		if (board.opponent > move) {
+	} else if (board.getOpponent() / 8 == move / 8) {
+		if (board.getOpponent() > move) {
 			return validLeft(board, move);
 		} else {
 			return validRight(board, move);
@@ -99,11 +99,11 @@ bool validMove(const Board board, const int move) {
 
 // check if move is valid upwards
 bool validUp(const Board board, const int move) {
-	if (move % 8 != board.opponent % 8 || move > board.opponent) {
+	if (move % 8 != board.getOpponent() % 8 || move > board.getOpponent()) {
 		return false;
 	}
-	for (int i = move + 8; i < board.opponent; i++) {
-		if (board.board.test(i)) {
+	for (int i = move + 8; i < board.getOpponent(); i++) {
+		if (board.test(i)) {
 			return false;
 		}
 	}
@@ -112,11 +112,11 @@ bool validUp(const Board board, const int move) {
 
 // check if new move is below 
 bool validDown(const Board board, const int move) { 
-	if (move % 8 != board.opponent % 8 || move < board.opponent) {
+	if (move % 8 != board.getOpponent() % 8 || move < board.getOpponent()) {
 		return false;
 	}
-	for (int i = move - 8; i > board.opponent; --i) {
-		if (board.board.test(i)) {
+	for (int i = move - 8; i > board.getOpponent(); --i) {
+		if (board.test(i)) {
 			return false;
 		}
 	}
@@ -124,11 +124,11 @@ bool validDown(const Board board, const int move) {
 }
 
 bool validLeft(const Board board, const int move) {
-	if (move / 8 != board.opponent / 8 || move > board.opponent) {
+	if (move / 8 != board.getOpponent() / 8 || move > board.getOpponent()) {
 		return false;
 	}
-	for (int i = move + 1; i < board.opponent; ++i) {
-		if (board.board.test(i)) {
+	for (int i = move + 1; i < board.getOpponent(); ++i) {
+		if (board.test(i)) {
 			return false;
 		}
 	}
@@ -136,11 +136,11 @@ bool validLeft(const Board board, const int move) {
 }
 
 bool validRight(const Board board, const int move) {
-	if (move / 8 != board.opponent / 8 || move < board.opponent) {
+	if (move / 8 != board.getOpponent() / 8 || move < board.getOpponent()) {
 		return false;
 	}
-	for (int i = move -1; i > board.opponent; --i) {
-		if (board.board.test(i)) {
+	for (int i = move -1; i > board.getOpponent(); --i) {
+		if (board.test(i)) {
 			return false;
 		}
 	}

@@ -11,19 +11,15 @@ int main() {
 	if (computerStartGame()) {
 		int value = getAiTurn(board);
 		std::cout << value << '\n';
-		board.board.set(value);
-		board.computer = value;
+		board.moveComputer(value);
 		printBoard(board, log);
 	}
 
 	while (1) {
 		int move = getUserInput(board);
-		board.opponent = move;
-		board.board.set(move);
+		board.moveOpponent(move);
 		int value = getAiTurn(board);
-		std::cout << value << '\n';
-		board.board.set(value);
-		board.computer = value;
+		board.moveComputer(value);
 		printBoard(board, log);
 	}
 	getAiTurn(board);

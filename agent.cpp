@@ -61,13 +61,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 		}
 		try {
 			// move down right
-			for (int j = 9 + board.computer; j%8 > board.computer%8 && j < 63; j+=9) {
-				if(board.board.test(j)) {
+			for (int j = 9 + board.getComputer(); j%8 > board.getComputer()%8 && j < 63; j+=9) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next = board;
-				next.computer = j;
-				next.board.set(j);
+				next.moveComputer(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -76,13 +75,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 			}
 
 			// move up left
-			for (int j = -9 + board.computer; j%8 < board.computer%8 && j > 0; j-=9) {
-				if(board.board.test(j)) {
+			for (int j = -9 + board.getComputer(); j%8 < board.getComputer() %8 && j > 0; j-=9) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next = board;
-				next.computer = j;
-				next.board.set(j);
+				next.getComputer();
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -92,13 +90,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 			}
 
 			// move down left
-			for (int j = 7 + board.computer; j%8 < board.computer%8  && j < 63; j+=7) {
-				if(board.board.test(j)) {
+			for (int j = 7 + board.getComputer(); j%8 < board.getComputer() %8  && j < 63; j+=7) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next  = board;
-				next.computer = j;
-				next.board.set(j);
+				next.moveComputer(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -108,13 +105,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 			}
 
 			// move up right
-			for (int j = -7 + board.computer; j%8 > board.computer%8 && j > 0; j-=7) {
-				if(board.board.test(j)) {
+			for (int j = -7 + board.getComputer(); j%8 > board.getComputer()%8 && j > 0; j-=7) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next = board;
-				next.computer = j;
-				next.board.set(j);
+				next.moveComputer(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -124,13 +120,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 			}
 
 			// move down
-			for (int j = 8 + board.computer; j < 63; j+=8) {
-				if(board.board.test(j)) {
+			for (int j = 8 + board.getComputer(); j < 63; j+=8) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next = board;
-				next.computer = j;
-				next.board.set(j);
+				next.moveComputer(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -139,13 +134,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 			}
 
 			// move up
-			for (int j = -8 + board.computer; j > 0; j-=8) {
-				if(board.board.test(j)) {
+			for (int j = -8 + board.getComputer(); j > 0; j-=8) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next = board;
-				next.computer = j;
-				next.board.set(j);
+				next.moveComputer(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -155,13 +149,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 
 
 			// move left
-			for (int j = board.computer -1; j%8 < 7 && j > 0; --j) {
-				if(board.board.test(j)) {
+			for (int j = board.getComputer() -1; j%8 < 7 && j > 0; --j) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next = board;
-				next.computer = j;
-				next.board.set(j);
+				next.moveComputer(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -171,13 +164,12 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 
 
 			// move right
-			for (int j = board.computer +1; j%8 > 0; ++j) {
-				if(board.board.test(j)) {
+			for (int j = board.getComputer() +1; j%8 > 0; ++j) {
+				if(board.test(j)) {
 					break;
 				}
 				Board next = board;
-				next.computer = j;
-				next.board.set(j);
+				next.moveComputer(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -209,13 +201,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		int i = depth-1;
 
 		// move down right
-		for (int j = 9 + board.opponent; j%8 > board.opponent%8 && j < 63; j+=9) {
-			if(board.board.test(j)) {
+		for (int j = 9 + board.getOpponent(); j%8 > board.getOpponent()%8 && j < 63; j+=9) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.opponent = j;
-			next.board.set(j);
+			board.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -225,13 +216,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move up left
-		for (int j = -9 + board.opponent; j%8 < board.opponent%8 && j > 0; j-=9) {
-			if(board.board.test(j)) {
+		for (int j = -9 + board.getOpponent(); j%8 < board.getOpponent()%8 && j > 0; j-=9) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.opponent = j;
-			next.board.set(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -241,13 +231,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move down left
-		for (int j = 7 + board.opponent; j%8 < board.opponent%8  && j < 63; j+=7) {
-			if(board.board.test(j)) {
+		for (int j = 7 + board.getOpponent(); j%8 < board.getOpponent()%8  && j < 63; j+=7) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next  = board;
-			next.opponent = j;
-			next.board.set(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -257,13 +246,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move up right
-		for (int j = -7 + board.opponent; j%8 > board.opponent%8 && j > 0; j-=7) {
-			if(board.board.test(j)) {
+		for (int j = -7 + board.getOpponent(); j%8 > board.getOpponent()%8 && j > 0; j-=7) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.opponent = j;
-			next.board.set(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -273,13 +261,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move down
-		for (int j = 8 + board.opponent; j < 63; j+=8) {
-			if(board.board.test(j)) {
+		for (int j = 8 + board.getOpponent(); j < 63; j+=8) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.opponent = j;
-			next.board.set(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -289,13 +276,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move up
-		for (int j = -8 + board.opponent; j > 0; j-=8) {
-			if(board.board.test(j)) {
+		for (int j = -8 + board.getOpponent(); j > 0; j-=8) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.opponent = j;
-			next.board.set(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -306,13 +292,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 
 		// move left
-		for (int j = board.opponent -1; j%8 < 7 && j > 0; --j) {
-			if(board.board.test(j)) {
+		for (int j = board.getOpponent() -1; j%8 < 7 && j > 0; --j) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.opponent = j;
-			next.board.set(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -323,13 +308,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 
 		// move right
-		for (int j = board.opponent +1; j%8 > 0; ++j) {
-			if(board.board.test(j)) {
+		for (int j = board.getOpponent() +1; j%8 > 0; ++j) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.opponent = j;
-			next.board.set(j);
+			board.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -357,13 +341,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		int i = depth-1;
 
 		// move down right
-		for (int j = 9 + board.computer; j%8 > board.computer%8 && j < 63; j+=9) {
-			if(board.board.test(j)) {
+		for (int j = 9 + board.getComputer(); j%8 > board.getComputer()%8 && j < 63; j+=9) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.computer = j;
-			next.board.set(j);
+			board.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -373,13 +356,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move up left
-		for (int j = -9 + board.computer; j%8 < board.computer%8 && j > 0; j-=9) {
-			if(board.board.test(j)) {
+		for (int j = -9 + board.getComputer(); j%8 < board.getComputer()%8 && j > 0; j-=9) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.computer = j;
-			next.board.set(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -389,13 +371,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move down left
-		for (int j = 7 + board.computer; j%8 < board.computer%8  && j < 63; j+=7) {
-			if(board.board.test(j)) {
+		for (int j = 7 + board.getComputer(); j%8 < board.getComputer()%8  && j < 63; j+=7) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next  = board;
-			next.computer = j;
-			next.board.set(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -405,13 +386,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move up right
-		for (int j = -7 + board.computer; j%8 > board.computer%8 && j > 0; j-=7) {
-			if(board.board.test(j)) {
+		for (int j = -7 + board.getComputer(); j%8 > board.getComputer()%8 && j > 0; j-=7) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.computer = j;
-			next.board.set(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -421,13 +401,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move down
-		for (int j = 8 + board.computer; j < 63; j+=8) {
-			if(board.board.test(j)) {
+		for (int j = 8 + board.getComputer(); j < 63; j+=8) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.computer = j;
-			next.board.set(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -437,13 +416,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 		}
 
 		// move up
-		for (int j = -8 + board.computer; j > 0; j-=8) {
-			if(board.board.test(j)) {
+		for (int j = -8 + board.getComputer(); j > 0; j-=8) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.computer = j;
-			next.board.set(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -454,13 +432,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 
 		// move left
-		for (int j = board.computer -1; j%8 < 7 && j > 0; --j) {
-			if(board.board.test(j)) {
+		for (int j = board.getComputer() -1; j%8 < 7 && j > 0; --j) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.computer = j;
-			next.board.set(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -471,13 +448,12 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 
 		// move right
-		for (int j = board.computer +1; j%8 > 0; ++j) {
-			if(board.board.test(j)) {
+		for (int j = board.getComputer() +1; j%8 > 0; ++j) {
+			if(board.test(j)) {
 				break;
 			}
 			Board next = board;
-			next.computer = j;
-			next.board.set(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value >= alpha) {
 				alpha = value;
@@ -497,7 +473,7 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 // The evaluation function
 int evaluate(const Board board) {
-	int score = count(board, board.computer) - count(board, board.opponent);
+	int score = count(board, board.getComputer()) - count(board, board.getOpponent());
 	return score;
 
 }
@@ -506,7 +482,7 @@ int count(const Board board, const int playerPosition) {
 	int localSum = 0;
 	// move down right
 	for (int j = 9 + playerPosition; j%8 > playerPosition%8 && j < 63; j+=9) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
@@ -514,7 +490,7 @@ int count(const Board board, const int playerPosition) {
 
 	// move up left
 	for (int j = -9 + playerPosition; j%8 < playerPosition%8 && j > 0; j-=9) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
@@ -522,7 +498,7 @@ int count(const Board board, const int playerPosition) {
 
 	// move down left
 	for (int j = 7 + playerPosition; j%8 < playerPosition%8  && j < 63; j+=7) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
@@ -530,7 +506,7 @@ int count(const Board board, const int playerPosition) {
 
 	// move up right
 	for (int j = -7 + playerPosition; j%8 > playerPosition%8 && j > 0; j-=7) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
@@ -538,7 +514,7 @@ int count(const Board board, const int playerPosition) {
 
 	// move down
 	for (int j = 8 + playerPosition; j < 63; j+=8) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
@@ -546,7 +522,7 @@ int count(const Board board, const int playerPosition) {
 
 	// move up
 	for (int j = -8 + playerPosition; j > 0; j-=8) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
@@ -554,7 +530,7 @@ int count(const Board board, const int playerPosition) {
 
 	// move left
 	for (int j = playerPosition -1; j%8 < 7 && j > 0; --j) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
@@ -562,7 +538,7 @@ int count(const Board board, const int playerPosition) {
 
 	// move right
 	for (int j = playerPosition +1; j%8 > 0; ++j) {
-		if(board.board.test(j)) {
+		if(board.test(j)) {
 			break;
 		}
 		++localSum;
