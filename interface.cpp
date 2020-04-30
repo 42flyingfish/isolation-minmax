@@ -22,18 +22,16 @@ void printBoard(const Board board, const std::vector<int> log) {
 			} else {
 				std::cout << ' ' << '_';
 			}
-
 		}
 		if (log.size() >= 2*i+1) {
 			std::cout << " True" << std::endl;
 		} else {
 			std::cout << "        " << std::endl;
 		}
-
 	}
 }
 
-int getUserInput() {
+int getUserInput(const Board board) {
 	std::string value;
 	while (1) {
 		std::cout << "Enter opponent’s move: ";
@@ -47,11 +45,104 @@ int getUserInput() {
 		} else if (value[1] < '1' || value[1] > '8') {
 			std::cout << "Must end with a digit between 1 and 8 inclusive\n";
 		} else {
-			break;
+			int move = (value[0] - 'A') * 8 + value[1] - '1';
+			//if (validMove(board, move)) {
+				return move;
+			//}
 		}
 	}
-	int move = (value[0] - 'A') * 8 + value[1] - '1';
-	std::cout << move << std::endl;
+}
 
-	return move;
+bool computerStartGame() {
+	std::string value;
+	while (1) {
+		std::cout << "Who should start? Computer or Opponent (C/O): ";
+		if(!std::getline(std::cin, value)) {
+			std::cout << "Somehow an io error occured. Let's try that again\n";
+		}
+		if (value == "C") {
+			return true;
+		} else if (value == "O") {
+			return false;
+		} else {
+			std::cout << "Input must be C or O\n";
+		}
+	}
+
+	return false;
+}
+
+bool validMove(const Board board, const int move) {
+	// space is occuppied
+	if (board.board.test(move)) {
+		return false;
+		// check if in same collum
+	} else if (board.opponent % 8 == move % 8) {
+		if (board.opponent > move) {
+			return validUp(board, move);
+		} else {
+			return validDown(board, move);
+		}
+	} else if (board.opponent / 8 == move / 8) {
+		if (board.opponent > move) {
+			return validLeft(board, move);
+		} else {
+			return validRight(board, move);
+		}
+	}
+	// check diagonals
+	else {
+
+		return true;
+	}
+}
+
+// check if move is valid upwards
+bool validUp(const Board board, const int move) {
+	if (move % 8 != board.opponent % 8 || move > board.opponent) {
+		return false;
+	}
+	for (int i = move + 8; i < board.opponent; i++) {
+		if (board.board.test(i)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+// check if new move is below 
+bool validDown(const Board board, const int move) { 
+	if (move % 8 != board.opponent % 8 || move < board.opponent) {
+		return false;
+	}
+	for (int i = move - 8; i > board.opponent; --i) {
+		if (board.board.test(i)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool validLeft(const Board board, const int move) {
+	if (move / 8 != board.opponent / 8 || move > board.opponent) {
+		return false;
+	}
+	for (int i = move + 1; i < board.opponent; ++i) {
+		if (board.board.test(i)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool validRight(const Board board, const int move) {
+	if (move / 8 != board.opponent / 8 || move < board.opponent) {
+		return false;
+	}
+	for (int i = move -1; i > board.opponent; --i) {
+		if (board.board.test(i)) {
+			return false;
+		}
+	}
+	return true;
 }
