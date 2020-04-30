@@ -13,7 +13,7 @@ board.o: board.cpp board.h
 
 agent.o: agent.cpp agent.h
 
-interface.o: interface.cpp interface.h
+interface.o: interface.cpp interface.h board.h
 
 clean:
 	rm -f *.o
