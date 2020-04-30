@@ -12,7 +12,7 @@ void printBoard(const Board board, const std::vector<int> log) {
 		for (int j = 0; j < 8; ++j) {
 			int index = i*8+j;
 			if (board.board.test(index)) {
-				if (index == board.player) {
+				if (index == board.computer) {
 					std::cout << ' ' << 'X';
 				} else if (index == board.opponent) {
 					std::cout << ' ' << 'O';

@@ -5,7 +5,7 @@
 
 struct Board {
 	std::bitset<64> board;
-	int player;
+	int computer;
 	int opponent;
 
 	Board();

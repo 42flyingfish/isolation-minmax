@@ -12,7 +12,7 @@ int main() {
 		int value = getAiTurn(board);
 		std::cout << value << '\n';
 		board.board.set(value);
-		board.player = value;
+		board.computer = value;
 		printBoard(board, log);
 	}
 
@@ -23,7 +23,7 @@ int main() {
 		int value = getAiTurn(board);
 		std::cout << value << '\n';
 		board.board.set(value);
-		board.player = value;
+		board.computer = value;
 		printBoard(board, log);
 	}
 	getAiTurn(board);
