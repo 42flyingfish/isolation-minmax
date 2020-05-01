@@ -24,6 +24,10 @@ class Board {
 		int getOpponent() const;
 
 
+		// for use in unordered map
+		bool operator==(const Board &other) const;
+
+
 		// used only with agent vs agent testing
 		void swapPlayer();
 };

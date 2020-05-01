@@ -1,6 +1,5 @@
 #include "agent.h"
 #include "board.h"
-#include "interface.h"
 
 #include <atomic> // for std::atomic<bool> 
 #include <chrono> // for std::chrono::seconds
@@ -10,10 +9,9 @@
 #include <thread> // to run the timeout and minMax function in threads
 #include <limits> // to init alpha/beta small/big number
 
-std::vector<int> log;
 
 // returns a value to move
-int getAiTurn(const Board board) {
+int Agent::getAiTurn(const Board board) {
 	return wrapper(board);
 }
 
@@ -21,13 +19,13 @@ int getAiTurn(const Board board) {
 // Will set an atomic boolean flag to true after the alloted time has expired
 // Also accepts an early notification through the condition_variable
 //    so that it does not always take the full alloted time
-int wrapper(const Board board) {
+int Agent::wrapper(const Board board) {
 	std::mutex m, critical;
 	std::condition_variable cv;
 	std::atomic<bool> flag {false};
 	int move;
 
-	std::thread third(minMax, std::ref(cv), std::ref(flag), board, std::ref(critical), std::ref(move));
+	std::thread third(&Agent::minMax, this, std::ref(cv), std::ref(flag), board, std::ref(critical), std::ref(move));
 	third.detach();
 
 	std::unique_lock<std::mutex> l{m};
@@ -46,7 +44,7 @@ int wrapper(const Board board) {
 }
 
 
-void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board board, std::mutex & critical, int & move) {
+void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board board, std::mutex & critical, int & move) {
 
 	critical.lock();
 
@@ -190,7 +188,7 @@ void minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board 
 	critical.unlock();
 }
 
-int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
+int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
 	if (depth == 0 ) {
 		return evaluate(board);
 	}
@@ -340,13 +338,12 @@ int algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 	if (beta == std::numeric_limits<int>::max()) {
 		std::cout << "Massive warning ! Returning large beta by default \n";
-		printBoard(board, log);
 	}
 
 	return beta;
 }
 
-int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
+int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
 	if (depth == 0 ) {
 		return evaluate(board);
 	}
@@ -498,7 +495,6 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 	if (alpha == std::numeric_limits<int>::min()) {
 		std::cout << "Massive warning ! Returning small alpha by default \n";
-		printBoard(board, log);
 	}
 
 	return alpha;
@@ -506,18 +502,18 @@ int algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Boar
 
 
 // The evaluation function
-int evaluate(const Board board) {
+int Agent::evaluate(const Board board) {
 	//int score = count(board, board.getComputer()) - count(board, board.getOpponent());
 	int aMax = count(board, board.getComputer());
 	int aMin = count(board, board.getOpponent());
-	int score = count(board, board.getComputer()) - count(board, board.getOpponent());
+	int score = aMax - aMin;
 	if (aMax < 0 || aMin < 0)
 		std::cout << "Warning score is " << score << " max is " << aMax << " min is " << aMin << '\n';
 	return score;
 
 }
 
-int count(const Board board, const int playerPosition) {
+int Agent::count(const Board board, const int playerPosition) {
 	int localSum = 0;
 	// move down right
 	for (int i = 9 + playerPosition; i%8 > playerPosition%8 && i < 64; i+=9) {

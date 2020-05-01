@@ -6,6 +6,7 @@
 int main() {
 	std::vector<int> log;
 	Board board{};
+	Agent smith{};
 
 	/*
 	if (computerStartGame()) {
@@ -18,7 +19,7 @@ int main() {
 
 	while (1) {
 	
-		int value = getAiTurn(board);
+		int value = smith.getAiTurn(board);
 		board.moveComputer(value);
 
 		printBoard(board, log);
@@ -31,7 +32,7 @@ int main() {
 		board.swapPlayer();
 
 
-		value = getAiTurn(board);
+		value = smith.getAiTurn(board);
 		board.moveComputer(value);
 
 		board.swapPlayer();
