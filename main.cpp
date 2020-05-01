@@ -1,12 +1,17 @@
 #include <iostream>
 #include "agent.h"
+#include "weightedOffenA.h"
+#include "weightedDefA.h"
 #include "board.h"
 #include "interface.h"
 
 int main() {
 	std::vector<int> log;
 	Board board{};
-	Agent smith{};
+	WeightedOffenA j{};
+	WeightedDeffA smith{};
+
+	
 
 	/*
 	if (computerStartGame()) {
@@ -32,7 +37,7 @@ int main() {
 		board.swapPlayer();
 
 
-		value = smith.getAiTurn(board);
+		value = j.getAiTurn(board);
 		board.moveComputer(value);
 
 		board.swapPlayer();

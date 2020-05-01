@@ -1,0 +1,453 @@
+Tick tock!
+12 Failure
+Alpha is 34 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ _ _ _ _ _ _        
+D _ _ _ _ _ _ _ _        
+E _ _ _ _ X _ _ _        
+F _ _ _ _ _ _ _ _        
+G _ _ _ _ _ _ _ _        
+H _ _ _ _ _ _ _ O        
+Tick tock!
+10 Failure
+Alpha is 1 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ _ _ _ _ _ _        
+D _ _ _ _ _ _ _ _        
+E _ _ _ _ X _ _ _        
+F _ _ _ _ _ _ _ _        
+G _ _ _ _ _ _ _ O        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+12 Failure
+Alpha is 30 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ _ _ _ _ _ _        
+D _ _ _ X _ _ _ _        
+E _ _ _ _ # _ _ _        
+F _ _ _ _ _ _ _ _        
+G _ _ _ _ _ _ _ O        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+10 Failure
+Alpha is 2 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ _ _ _ _ _ _        
+D _ _ _ X _ _ _ _        
+E _ _ _ _ # _ _ _        
+F _ _ _ _ _ _ _ O        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+12 Failure
+Alpha is 25 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ X _ _ _ _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ _ # _ _ _        
+F _ _ _ _ _ _ _ O        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+10 Failure
+Alpha is 5 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ X _ _ _ _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ _ # _ _ _        
+F _ _ O _ _ _ _ #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+12 Failure
+Alpha is 20 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ # _ _ X _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ _ # _ _ _        
+F _ _ O _ _ _ _ #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+12 Failure
+Alpha is 2 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ _ _ _ _        
+C _ _ # _ _ X _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ O # _ _ _        
+F _ _ # _ _ _ _ #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+12 Failure
+Alpha is 23 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ X _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ O # _ _ _        
+F _ _ # _ _ _ _ #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ _ #        
+Tick tock!
+12 Failure
+Alpha is 2 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ _ _ _ _ _        
+B _ _ _ _ X _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ # # _ _ _        
+F _ _ # _ _ _ _ #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ O #        
+Tick tock!
+14 Failure
+Alpha is 17 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ X _ _ _ _        
+B _ _ _ _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ # # _ _ _        
+F _ _ # _ _ _ _ #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ O #        
+Tick tock!
+13 Failure
+Alpha is 6 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ X _ _ _ _        
+B _ _ _ _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ # # _ _ _        
+F _ _ # _ _ _ O #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+14 Failure
+Alpha is 13 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ _ X _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ # # _ _ _        
+F _ _ # _ _ _ O #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+13 Failure
+Alpha is 5 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ _ X _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ # # O _ _        
+F _ _ # _ _ _ # #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+16 Failure
+Alpha is 15 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ X # _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # _ _ _ _        
+E _ _ _ # # O _ _        
+F _ _ # _ _ _ # #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+15 Failure
+Alpha is 3 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ X # _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # O _ _ _        
+E _ _ _ # # # _ _        
+F _ _ # _ _ _ # #        
+G _ _ _ _ _ _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+16 Failure
+Alpha is 23 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # O _ _ _        
+E _ _ _ # # # _ _        
+F _ _ # _ _ _ # #        
+G _ X _ _ _ _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+18 Failure
+Alpha is 3 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # # _ _ O        
+E _ _ _ # # # _ _        
+F _ _ # _ _ _ # #        
+G _ X _ _ _ _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+17 Failure
+Alpha is 17 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ _ _        
+C _ _ # _ _ # _ _        
+D _ _ _ # # _ _ O        
+E _ _ _ # # # _ _        
+F _ _ # _ _ _ # #        
+G _ # _ _ X _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+18 Failure
+Alpha is -1 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ _ _        
+C _ _ # _ _ # _ O        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # _ _        
+F _ _ # _ _ _ # #        
+G _ # _ _ X _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+18 Failure
+Alpha is 22 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ _ _        
+C _ _ # _ _ # _ O        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # _ _        
+F _ _ # X _ _ # #        
+G _ # _ _ # _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+21 Failure
+Alpha is 0 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ _ O        
+C _ _ # _ _ # _ #        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # _ _        
+F _ _ # X _ _ # #        
+G _ # _ _ # _ _ #        
+H _ _ _ _ _ _ # #        
+Tick tock!
+20 Failure
+Alpha is 13 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ _ O        
+C _ _ # _ _ # _ #        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # _ _        
+F _ _ # # _ _ # #        
+G _ # _ _ # _ _ #        
+H _ _ _ X _ _ # #        
+Tick tock!
+22 Failure
+Alpha is -1 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ O #        
+C _ _ # _ _ # _ #        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # _ _        
+F _ _ # # _ _ # #        
+G _ # _ _ # _ _ #        
+H _ _ _ X _ _ # #        
+Tick tock!
+22 Failure
+Alpha is 14 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ O #        
+C _ _ # _ _ # _ #        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # _ _        
+F _ _ # # _ _ # #        
+G _ # X _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+31 Failure
+Alpha is 3 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # _ _ # _ #        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # O _        
+F _ _ # # _ _ # #        
+G _ # X _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+32 Failure
+Alpha is 12 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # _ _ # _ #        
+D _ _ _ # # _ _ #        
+E _ _ _ # # # O _        
+F _ X # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+34 Failure
+Alpha is 1 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # _ _ # _ #        
+D _ _ _ # # O _ #        
+E _ _ _ # # # # _        
+F _ X # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+32 Failure
+Alpha is 13 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # _ _ # _ #        
+D _ _ _ # # O _ #        
+E _ _ _ # # # # _        
+F X # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+38 Failure
+Alpha is -1 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # _ O # _ #        
+D _ _ _ # # # _ #        
+E _ _ _ # # # # _        
+F X # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+118 Failure
+Alpha is 10 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # _ O # _ #        
+D X _ _ # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+75 Failure
+Alpha is 1 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # O # # _ #        
+D X _ _ # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+119 Failure
+Alpha is 9 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # O # # _ #        
+D # X _ # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+115 Failure
+Alpha is 1 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C _ _ # # # # _ #        
+D # X O # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Tick tock!
+6030 Failure
+Alpha is 6 Beta is 2147483647 Exiting
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C X _ # # # # _ #        
+D # # O # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Alpha is 2 Beta is 2147483647 Exiting
+Algorithm returned Early
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B _ # # _ # _ # #        
+C X O # # # # _ #        
+D # # # # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+Alpha is 2 Beta is 2147483647 Exiting
+Algorithm returned Early
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B X # # _ # _ # #        
+C # O # # # # _ #        
+D # # # # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
+
+Final Board
+  1 2 3 4 5 6 7 8     Computer vs. Opponent
+A # _ _ # _ _ _ _        
+B X # # _ # _ # #        
+C # O # # # # _ #        
+D # # # # # # _ #        
+E _ _ _ # # # # _        
+F # # # # _ _ # #        
+G _ # # _ # _ _ #        
+H _ _ _ # _ _ # #        
