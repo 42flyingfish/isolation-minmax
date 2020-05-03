@@ -90,3 +90,15 @@ void Board::swapPlayer() {
 	computer = opponent;
 	opponent = temp;
 }
+
+void Board::reset() {
+	board = 0;
+	computer = 0;
+	opponent = 63;
+	board.set(computer);
+	board.set(opponent);
+}
+
+std::bitset<64> Board::getBitset() const {
+	return board;
+}

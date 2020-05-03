@@ -30,6 +30,9 @@ class Board {
 
 		// used only with agent vs agent testing
 		void swapPlayer();
+		void reset();
+
+		std::bitset<64> getBitset() const;
 };
 
 #endif
