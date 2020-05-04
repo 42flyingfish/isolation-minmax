@@ -52,7 +52,7 @@ void WeightedDeffA::minMax(std::condition_variable & cv, std::atomic<bool> & fla
 	int alpha{std::numeric_limits<int>::min()};
 	int beta{std::numeric_limits<int>::max()};
 
-	for (int i=0; i <= 100000; ++i) {
+	for (int i=3; i <= 100000; ++i) {
 		if (flag) {
 			std::cout << i << "Exiting loop\n";
 			break;
@@ -189,11 +189,12 @@ void WeightedDeffA::minMax(std::condition_variable & cv, std::atomic<bool> & fla
 }
 
 int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
-	if (depth == 0 ) {
+
+	bool terminal = true;
+
+
+	if (depth == 0) {
 		return - evaluate(board, board.getOpponent(), board.getComputer());
-	}
-	if (board.gameOver()) {
-		return -1;
 	}
 	if (flag) {
 		throw std::runtime_error("Timeout");
@@ -206,6 +207,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			board.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -222,6 +224,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -238,6 +241,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next  = board;
 			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -254,6 +258,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -270,6 +275,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -286,6 +292,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -303,6 +310,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -320,6 +328,7 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			board.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
@@ -336,6 +345,11 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 		throw e;
 	}
 
+	if (terminal) {
+		//return -1;
+		return -evaluate(board, board.getOpponent(), board.getComputer());
+	}
+
 	if (beta == std::numeric_limits<int>::max()) {
 		std::cout << "Massive warning ! Returning large beta by default \n";
 	}
@@ -344,12 +358,11 @@ int WeightedDeffA::algoMin(std::atomic<bool> & flag, const int depth, int alpha,
 }
 
 int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
-	if (depth == 0 ) {
+
+	bool terminal = true;
+
+	if (depth == 0) {
 		return evaluate(board, board.getComputer(), board.getOpponent());
-	}
-	if (board.gameOver()) {
-		return 1;
-		//return evaluate(board);
 	}
 	if (flag) {
 		throw std::runtime_error("Timeout");
@@ -361,7 +374,8 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 		for (int j = 9 + board.getComputer(); j%8 > board.getComputer()%8 && j < 64; j+=9) {
 			if(board.test(j)) {
 				break;
-			}
+			} 
+			terminal = false;
 			Board next = board;
 			board.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -378,6 +392,7 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -394,6 +409,7 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next  = board;
 			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -410,6 +426,7 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -426,6 +443,7 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -442,6 +460,7 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -459,6 +478,7 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -476,6 +496,7 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 			if(board.test(j)) {
 				break;
 			}
+			terminal = false;
 			Board next = board;
 			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
@@ -493,6 +514,12 @@ int WeightedDeffA::algoMax(std::atomic<bool> & flag, const int depth, int alpha,
 		throw e;
 	}
 
+	if (terminal) {
+		return evaluate(board, board.getComputer(), board.getOpponent());
+	} else {
+		return alpha;
+	}
+
 	if (alpha == std::numeric_limits<int>::min()) {
 		std::cout << "Massive warning ! Returning small alpha by default \n";
 	}
@@ -506,7 +533,18 @@ int WeightedDeffA::evaluate(const Board board, const int pos, const int opp) con
 	//int score = count(board, board.getComputer()) - count(board, board.getOpponent());
 	int aMax = count(board, pos);
 	int aMin = count(board, opp);
-	int score =  2 * aMax -  aMin;
+	int score;
+	//int score =  aMax - aMin * (1 + (board.getBitset().count() / 5));
+	if (aMax == 0) {
+		return 1;
+	} else if (aMin == 0) { 
+		return -1;
+	} else if (board.getBitset().count() < 32){
+		score = aMax * 2 - aMin;
+	} else {
+		score = aMax - 2 * aMin;
+	}
+
 	if (aMax < 0 || aMin < 0)
 		std::cout << "Warning score is " << score << " max is " << aMax << " min is " << aMin << '\n';
 	return score;

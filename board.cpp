@@ -1,8 +1,11 @@
 #include "board.h"
+#include <string>
+#include <iostream>
+#include "interface.h"
+#include <vector>
 
 
 Board::Board() {
-	board = 0;
 	computer = 0;
 	opponent = 63;
 	board.set(computer);
@@ -30,7 +33,7 @@ bool Board::test(const size_t pos) const {
 }
 
 bool Board::gameOver() const {
-	return !(canMoveFrom(computer) && canMoveFrom(opponent));
+	return !canMoveFrom(computer) || !canMoveFrom(opponent);
 }
 
 int Board::getComputer() const {
@@ -44,8 +47,10 @@ int Board::getOpponent() const {
 bool Board::canMoveFrom(const int pos) const {
 	// check up
 	int nextPos = pos - 8;
-	if (nextPos >= 0 && !board.test(nextPos))
+	if (nextPos >= 0 && !board.test(nextPos)) {
+		//std::cout << "Good up\n";
 		return true;
+	}
 	
 	// check down
 	nextPos = pos + 8;
@@ -59,7 +64,7 @@ bool Board::canMoveFrom(const int pos) const {
 
 	// check right
 	nextPos = pos + 1;
-	if (nextPos >= 0 && nextPos%8 > pos%8 && !board.test(nextPos))
+	if (nextPos < 64 && nextPos%8 > pos%8 && !board.test(nextPos))
 		return true;
 	
 	// check up left
@@ -69,7 +74,7 @@ bool Board::canMoveFrom(const int pos) const {
 
 	// check up right
 	nextPos = pos + 1 - 8;
-	if (nextPos < 64 && nextPos%8 > pos%8 && !board.test(nextPos))
+	if (nextPos >= 0 && nextPos%8 > pos%8 && !board.test(nextPos))
 		return true;
 	
 	// check down left
