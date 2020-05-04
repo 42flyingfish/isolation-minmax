@@ -5,7 +5,15 @@
 #include <string>
 
 // prints board state
-void printBoard(const Board board, const std::vector<int> log) {
+void printBoard(const Board board) {
+
+	std::vector<int> computerLog = board.getCLog();
+	std::vector<int> opponentLog = board.getOLog();
+
+	auto cit = computerLog.begin();
+	auto oit = opponentLog.begin();
+
+
 	std::cout << "  1 2 3 4 5 6 7 8     Computer vs. Opponent\n";
 	for (unsigned int i = 0; i < 8; ++i) {
 		std::cout << char('A' + i);
@@ -20,15 +28,75 @@ void printBoard(const Board board, const std::vector<int> log) {
 					std::cout << ' ' << '#';
 				}
 			} else {
-				std::cout << ' ' << '_';
+				std::cout << ' ' << '-';
 			}
 		}
-		if (log.size() >= 2*i+1) {
-			std::cout << " True" << std::endl;
-		} else {
-			std::cout << "        " << std::endl;
+
+		// printing the log
+		//
+		// check if log is not empty
+		if (cit != computerLog.end() || cit != opponentLog.end()) {
+
+			// print number
+			std::cout << "        " << i << ". ";
+
+			if (cit != computerLog.end()) {
+				printMove(*cit);
+				cit++;
+			} else {
+				std::cout << "  ";
+			}
+
+			// spacer
+			std::cout << "   ";
+
+			if (oit != opponentLog.end()) {
+				printMove(*oit);
+				oit++;
+			}
 		}
+		std::cout << std::endl;
+
 	}
+	// check if log is not empty
+	for (int i = 9; cit != computerLog.end() || oit != opponentLog.end(); ++i) {
+
+		// print number
+		std::cout << "                         " << i << ". ";
+
+		if (cit != computerLog.end()) {
+			printMove(*cit);
+			cit++;
+		} else {
+			std::cout << "  ";
+		}
+
+		// spacer
+		std::cout << "   ";
+
+		if (oit != opponentLog.end()) {
+			printMove(*oit);
+			oit++;
+		}
+
+		std::cout << std::endl;
+
+	}
+	std::cout << "\n\n";
+}
+
+
+
+
+void printMove(const int move) {
+	char letter = 'A' + move / 8;
+
+	// Plus one is needed due to moves starting at 0
+	int num = move % 8 + 1;
+
+	std::cout << letter << num;
+
+
 }
 
 int getUserInput(const Board board) {
@@ -47,7 +115,7 @@ int getUserInput(const Board board) {
 		} else {
 			int move = (value[0] - 'A') * 8 + value[1] - '1';
 			//if (validMove(board, move)) {
-				return move;
+			return move;
 			//}
 		}
 	}

@@ -2,12 +2,15 @@
 #define BOARD_H
 
 #include <bitset>
+#include <vector>
 
 class Board {
 	private:
 		std::bitset<64> board;
 		int computer;
 		int opponent;
+		std::vector<int> computerLog;
+		std::vector<int> opponentLog;
 
 		bool canMoveFrom(const int) const;
 
@@ -23,8 +26,10 @@ class Board {
 		int getComputer() const;
 		int getOpponent() const;
 
+		std::vector<int> getCLog() const;
+		std::vector<int> getOLog() const;
 
-		// for use in unordered map
+
 		bool operator==(const Board &other) const;
 
 

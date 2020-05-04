@@ -1,6 +1,4 @@
 #include "board.h"
-#include <string>
-#include <iostream>
 #include "interface.h"
 #include <vector>
 
@@ -21,11 +19,13 @@ Board::Board(const int x, const int y) : computer{x}, opponent{y} {
 void Board::moveComputer(const int value) {
 	board.set(value);
 	computer = value;
+	computerLog.push_back(value);
 }
 
 void Board::moveOpponent(const int value) {
 	board.set(value);
 	opponent = value;
+	opponentLog.push_back(value);
 }
 
 bool Board::test(const size_t pos) const {
@@ -51,7 +51,7 @@ bool Board::canMoveFrom(const int pos) const {
 		//std::cout << "Good up\n";
 		return true;
 	}
-	
+
 	// check down
 	nextPos = pos + 8;
 	if (nextPos < 64 && !board.test(nextPos))
@@ -66,7 +66,7 @@ bool Board::canMoveFrom(const int pos) const {
 	nextPos = pos + 1;
 	if (nextPos < 64 && nextPos%8 > pos%8 && !board.test(nextPos))
 		return true;
-	
+
 	// check up left
 	nextPos = pos - 1 - 8;
 	if (nextPos >= 0 && nextPos%8 < pos%8 && !board.test(nextPos))
@@ -76,12 +76,12 @@ bool Board::canMoveFrom(const int pos) const {
 	nextPos = pos + 1 - 8;
 	if (nextPos >= 0 && nextPos%8 > pos%8 && !board.test(nextPos))
 		return true;
-	
+
 	// check down left
 	nextPos = pos - 1 + 8;
 	if (nextPos < 64 && nextPos%8 < pos%8 && !board.test(nextPos))
 		return true;
-	
+
 	// check down right
 	nextPos = pos + 1 + 8;
 	if (nextPos < 64 && nextPos%8 > pos%8 && !board.test(nextPos))
@@ -106,4 +106,12 @@ void Board::reset() {
 
 std::bitset<64> Board::getBitset() const {
 	return board;
+}
+
+std::vector<int> Board::getCLog() const {
+	return computerLog;
+}
+
+std::vector<int> Board::getOLog() const {
+	return opponentLog;
 }

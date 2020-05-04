@@ -4,7 +4,6 @@
 #include <atomic> // for std::atomic<bool> 
 #include <chrono> // for std::chrono::seconds
 #include <condition_variable> // for cv.wait_for
-#include <iostream>
 #include <mutex> // used with std::condition_variable
 #include <thread> // to run the timeout and minMax function in threads
 #include <limits> // to init alpha/beta small/big number
@@ -33,12 +32,9 @@ int Agent::wrapper(const Board board) {
 
 		// set timeout flag to be read by thread
 		flag = true;
-		std::cout << "Tick tock!\n";
 		// waiting for minMax to finish
 		critical.lock();
 		critical.unlock();
-	} else {
-		std::cout << "Algorithm returned Early\n";
 	}
 	return move;
 }
@@ -54,7 +50,6 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 
 	for (int i=0; i <= 100000; ++i) {
 		if (flag) {
-			std::cout << i << "Exiting loop\n";
 			break;
 		}
 		try {
@@ -176,12 +171,10 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 			}
 
 		} catch(std::runtime_error & e) {
-			std::cout << i << " Failure\n";
 			break;
 		}
 	}
 	// alert the caller that we have finished
-	std::cout << "Alpha is " <<  alpha << " Beta is " << beta << " Exiting\n";
 
 	// set move and unlock
 	cv.notify_one();
@@ -334,10 +327,6 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 
 	} catch(std::runtime_error & e) {
 		throw e;
-	}
-
-	if (beta == std::numeric_limits<int>::max()) {
-		std::cout << "Massive warning ! Returning large beta by default \n";
 	}
 
 	return beta;
@@ -493,22 +482,15 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 		throw e;
 	}
 
-	if (alpha == std::numeric_limits<int>::min()) {
-		std::cout << "Massive warning ! Returning small alpha by default \n";
-	}
-
 	return alpha;
 }
 
 
 // The evaluation function
 int Agent::evaluate(const Board board) {
-	//int score = count(board, board.getComputer()) - count(board, board.getOpponent());
 	int aMax = count(board, board.getComputer());
 	int aMin = count(board, board.getOpponent());
 	int score = aMax - aMin;
-	if (aMax < 0 || aMin < 0)
-		std::cout << "Warning score is " << score << " max is " << aMax << " min is " << aMin << '\n';
 	return score;
 
 }
