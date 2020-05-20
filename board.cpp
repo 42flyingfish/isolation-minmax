@@ -22,10 +22,20 @@ void Board::moveComputer(const int value) {
 	computerLog.push_back(value);
 }
 
+void Board::moveComputerNoLogging(const int value) {
+	board.set(value);
+	computer = value;
+}
+
 void Board::moveOpponent(const int value) {
 	board.set(value);
 	opponent = value;
 	opponentLog.push_back(value);
+}
+
+void Board::moveOpponentNoLogging(const int value) {
+	board.set(value);
+	opponent = value;
 }
 
 bool Board::test(const size_t pos) const {

@@ -59,7 +59,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 					break;
 				}
 				Board next = board;
-				next.moveComputer(j);
+				next.moveComputerNoLogging(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -88,7 +88,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 					break;
 				}
 				Board next  = board;
-				next.moveComputer(j);
+				next.moveComputerNoLogging(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -103,7 +103,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 					break;
 				}
 				Board next = board;
-				next.moveComputer(j);
+				next.moveComputerNoLogging(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -118,7 +118,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 					break;
 				}
 				Board next = board;
-				next.moveComputer(j);
+				next.moveComputerNoLogging(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -132,7 +132,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 					break;
 				}
 				Board next = board;
-				next.moveComputer(j);
+				next.moveComputerNoLogging(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -147,7 +147,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 					break;
 				}
 				Board next = board;
-				next.moveComputer(j);
+				next.moveComputerNoLogging(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -162,7 +162,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 					break;
 				}
 				Board next = board;
-				next.moveComputer(j);
+				next.moveComputerNoLogging(j);
 				int value = algoMin(flag, i, alpha, beta, next);
 				if (value > alpha) {
 					alpha = value;
@@ -216,7 +216,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveOpponent(j);
+			next.moveOpponentNoLogging(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -232,7 +232,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next  = board;
-			next.moveOpponent(j);
+			next.moveOpponentNoLogging(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -248,7 +248,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveOpponent(j);
+			next.moveOpponentNoLogging(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -264,7 +264,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveOpponent(j);
+			next.moveOpponentNoLogging(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -280,7 +280,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveOpponent(j);
+			next.moveOpponentNoLogging(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -297,7 +297,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveOpponent(j);
+			next.moveOpponentNoLogging(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -368,7 +368,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveComputer(j);
+			next.moveComputerNoLogging(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;
@@ -384,7 +384,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next  = board;
-			next.moveComputer(j);
+			next.moveComputerNoLogging(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;
@@ -400,7 +400,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveComputer(j);
+			next.moveComputerNoLogging(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;
@@ -416,7 +416,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveComputer(j);
+			next.moveComputerNoLogging(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;
@@ -432,7 +432,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveComputer(j);
+			next.moveComputerNoLogging(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;
@@ -449,7 +449,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveComputer(j);
+			next.moveComputerNoLogging(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;
@@ -466,7 +466,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			next.moveComputer(j);
+			next.moveComputerNoLogging(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;

@@ -20,6 +20,12 @@ class Board {
 		
 		void moveComputer(const int);
 		void moveOpponent(const int);
+
+		// this may or may not be a speed boost
+		// as it does interact with the vector
+		void moveComputerNoLogging(const int);
+		void moveOpponentNoLogging(const int);
+
 		bool test(const size_t) const;
 		bool gameOver() const;
 

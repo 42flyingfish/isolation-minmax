@@ -62,7 +62,11 @@ void printBoard(const Board board) {
 	for (int i = 9; cit != computerLog.end() || oit != opponentLog.end(); ++i) {
 
 		// print number
-		std::cout << "                         " << i << ". ";
+		if (i == 9) {
+			std::cout << "                         " << i << ". ";
+		} else {
+			std::cout << "                        " << i << ". ";
+		}
 
 		if (cit != computerLog.end()) {
 			printMove(*cit);
@@ -114,9 +118,11 @@ int getUserInput(const Board board) {
 			std::cout << "Must end with a digit between 1 and 8 inclusive\n";
 		} else {
 			int move = (value[0] - 'A') * 8 + value[1] - '1';
-			//if (validMove(board, move)) {
-			return move;
-			//}
+			if (board.test(move)) {
+				std::cout << "Already blocked\n";
+			} else {
+				return move;
+			}
 		}
 	}
 }
@@ -140,77 +146,3 @@ bool computerStartGame() {
 	return false;
 }
 
-bool validMove(const Board board, const int move) {
-	// space is occuppied
-	if (board.test(move)) {
-		return false;
-		// check if in same collum
-	} else if (board.getOpponent() % 8 == move % 8) {
-		if (board.getOpponent() > move) {
-			return validUp(board, move);
-		} else {
-			return validDown(board, move);
-		}
-	} else if (board.getOpponent() / 8 == move / 8) {
-		if (board.getOpponent() > move) {
-			return validLeft(board, move);
-		} else {
-			return validRight(board, move);
-		}
-	}
-	// check diagonals
-	else {
-
-		return true;
-	}
-}
-
-// check if move is valid upwards
-bool validUp(const Board board, const int move) {
-	if (move % 8 != board.getOpponent() % 8 || move > board.getOpponent()) {
-		return false;
-	}
-	for (int i = move + 8; i < board.getOpponent(); i++) {
-		if (board.test(i)) {
-			return false;
-		}
-	}
-	return true;
-}
-
-// check if new move is below 
-bool validDown(const Board board, const int move) { 
-	if (move % 8 != board.getOpponent() % 8 || move < board.getOpponent()) {
-		return false;
-	}
-	for (int i = move - 8; i > board.getOpponent(); --i) {
-		if (board.test(i)) {
-			return false;
-		}
-	}
-	return true;
-}
-
-bool validLeft(const Board board, const int move) {
-	if (move / 8 != board.getOpponent() / 8 || move > board.getOpponent()) {
-		return false;
-	}
-	for (int i = move + 1; i < board.getOpponent(); ++i) {
-		if (board.test(i)) {
-			return false;
-		}
-	}
-	return true;
-}
-
-bool validRight(const Board board, const int move) {
-	if (move / 8 != board.getOpponent() / 8 || move < board.getOpponent()) {
-		return false;
-	}
-	for (int i = move -1; i > board.getOpponent(); --i) {
-		if (board.test(i)) {
-			return false;
-		}
-	}
-	return true;
-}
