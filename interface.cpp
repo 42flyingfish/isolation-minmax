@@ -59,10 +59,10 @@ void printBoard(const Board board) {
 
 	}
 	// check if log is not empty
-	for (int i = 9; cit != computerLog.end() || oit != opponentLog.end(); ++i) {
+	for (int i = 8; cit != computerLog.end() || oit != opponentLog.end(); ++i) {
 
 		// print number
-		if (i == 9) {
+		if (i == 8 || i == 9) {
 			std::cout << "                         " << i << ". ";
 		} else {
 			std::cout << "                        " << i << ". ";
