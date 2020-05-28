@@ -48,7 +48,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 	int alpha{std::numeric_limits<int>::min()};
 	int beta{std::numeric_limits<int>::max()};
 
-	for (int i=0; i <= 100000; ++i) {
+	for (int i=0; i <= 64; ++i) {
 		if (flag) {
 			break;
 		}
