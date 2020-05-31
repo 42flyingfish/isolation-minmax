@@ -16,7 +16,7 @@ class Agent {
 		void minMax(std::condition_variable &, std::atomic<bool> &, const Board, std::mutex &, int &);
 
 		// the evelauation function
-		int evaluate(const Board);
+		int evaluate(const Board, const int, const int);
 		int count(const Board board, const int playerPosition);
 
 	public:

@@ -1,5 +1,7 @@
+#include <iostream>
 #include "agent.h"
 #include "board.h"
+#include "orders.h"
 
 #include <atomic> // for std::atomic<bool> 
 #include <chrono> // for std::chrono::seconds
@@ -7,6 +9,7 @@
 #include <mutex> // used with std::condition_variable
 #include <thread> // to run the timeout and minMax function in threads
 #include <limits> // to init alpha/beta small/big number
+#include <queue>
 
 
 // returns a value to move
@@ -37,7 +40,7 @@ int Agent::wrapper(const Board board) {
 		critical.unlock();
 	}
 	return move;
-}
+} 
 
 
 void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board board, std::mutex & critical, int & move) {
@@ -47,147 +50,171 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 	// init alpha beta
 	int alpha{std::numeric_limits<int>::min()};
 	int beta{std::numeric_limits<int>::max()};
+	std::priority_queue<Orders> current {};
+	std::priority_queue<Orders> nextMoves {};
+	int depth = 1;
 
-	for (int i=0; i <= 64; ++i) {
-		if (flag) {
-			break;
+	try {
+		const int i = 0;
+		// move down right
+		for (int j = 9 + board.getComputer(); j%8 > board.getComputer()%8 && j < 64; j+=9) {
+			if(board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.moveComputerNoLogging(j);
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
+			}
+			//current.push(Orders{move, value});
+			nextMoves.push({.move = j, .weight = value});
 		}
-		try {
-			// move down right
-			for (int j = 9 + board.getComputer(); j%8 > board.getComputer()%8 && j < 64; j+=9) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next = board;
-				next.moveComputerNoLogging(j);
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
+
+		// move up left
+		for (int j = -9 + board.getComputer(); j%8 < board.getComputer() %8 && j > 0; j-=9) {
+			if(board.test(j)) {
+				break;
 			}
-
-			// move up left
-			for (int j = -9 + board.getComputer(); j%8 < board.getComputer() %8 && j > 0; j-=9) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next = board;
-				next.getComputer();
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
-
+			Board next = board;
+			next.getComputer();
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
 			}
-
-			// move down left
-			for (int j = 7 + board.getComputer(); j%8 < board.getComputer() %8  && j < 64; j+=7) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next  = board;
-				next.moveComputerNoLogging(j);
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
-
-			}
-
-			// move up right
-			for (int j = -7 + board.getComputer(); j%8 > board.getComputer()%8 && j > 0; j-=7) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next = board;
-				next.moveComputerNoLogging(j);
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
-
-			}
-
-			// move down
-			for (int j = 8 + board.getComputer(); j < 64; j+=8) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next = board;
-				next.moveComputerNoLogging(j);
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
-			}
-
-			// move up
-			for (int j = -8 + board.getComputer(); j > 0; j-=8) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next = board;
-				next.moveComputerNoLogging(j);
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
-			}
-
-
-			// move left
-			for (int j = board.getComputer() -1; j%8 < 7 && j > 0; --j) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next = board;
-				next.moveComputerNoLogging(j);
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
-			}
-
-
-			// move right
-			for (int j = board.getComputer() +1; j%8 > 0; ++j) {
-				if(board.test(j)) {
-					break;
-				}
-				Board next = board;
-				next.moveComputerNoLogging(j);
-				int value = algoMin(flag, i, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = j;
-				}
-			}
-
-		} catch(std::runtime_error & e) {
-			break;
+			nextMoves.push({.move = j, .weight = value});
 		}
+
+		// move down left
+		for (int j = 7 + board.getComputer(); j%8 < board.getComputer() %8  && j < 64; j+=7) {
+			if(board.test(j)) {
+				break;
+			}
+			Board next  = board;
+			next.moveComputerNoLogging(j);
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
+			}
+			nextMoves.push({.move = j, .weight = value});
+		}
+
+		// move up right
+		for (int j = -7 + board.getComputer(); j%8 > board.getComputer()%8 && j > 0; j-=7) {
+			if(board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.moveComputerNoLogging(j);
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
+			}
+			nextMoves.push({.move = j, .weight = value});
+
+		}
+
+		// move down
+		for (int j = 8 + board.getComputer(); j < 64; j+=8) {
+			if(board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.moveComputerNoLogging(j);
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
+			}
+			nextMoves.push({.move = j, .weight = value});
+		}
+
+		// move up
+		for (int j = -8 + board.getComputer(); j > 0; j-=8) {
+			if(board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.moveComputerNoLogging(j);
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
+			}
+			nextMoves.push({.move = j, .weight = value});
+		}
+
+
+		// move left
+		for (int j = board.getComputer() -1; j%8 < 7 && j > 0; --j) {
+			if(board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.moveComputerNoLogging(j);
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
+			}
+			nextMoves.push({.move = j, .weight = value});
+		}
+
+
+		// move right
+		for (int j = board.getComputer() +1; j%8 > 0; ++j) {
+			if(board.test(j)) {
+				break;
+			}
+			Board next = board;
+			next.moveComputerNoLogging(j);
+			int value = algoMin(flag, i, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = j;
+			}
+			nextMoves.push({.move = j, .weight = value});
+		}
+		for (depth; depth <= 64; ++depth) {
+			current.swap(nextMoves);
+			while(!current.empty()) {
+				auto item = current.top();
+				current.pop();
+				Board next = board;
+				next.moveComputerNoLogging(item.move);
+				int value = algoMin(flag, depth, alpha, beta, next);
+				if (value > alpha) {
+					alpha = value;
+					move = item.move;
+				}
+				nextMoves.push({.move = item.move, .weight = value});
+			}
+		}
+
+	} catch(std::runtime_error & e) {
+		critical.unlock();
+		return;
 	}
 	// alert the caller that we have finished
 
 	// set move and unlock
-	cv.notify_one();
 	critical.unlock();
-}
+	cv.notify_one();
+} 
 
 int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
 	if (depth == 0 ) {
-		return evaluate(board);
+		return -evaluate(board, board.getOpponent(), board.getComputer());
 	}
-	if (board.gameOver()) {
-		return -1;
-	}
+	/*
+	   if (board.gameOver()) {
+	   return -1;
+	   }
+	   */
 	if (flag) {
 		throw std::runtime_error("Timeout");
 	}
@@ -334,12 +361,13 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 
 int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
 	if (depth == 0 ) {
-		return evaluate(board);
+		return evaluate(board, board.getComputer(), board.getOpponent());
 	}
-	if (board.gameOver()) {
-		return 1;
-		//return evaluate(board);
+	/*if (board.gameOver()) {
+	  return 1;
+	//return evaluate(board);
 	}
+	*/
 	if (flag) {
 		throw std::runtime_error("Timeout");
 	}
@@ -487,10 +515,21 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 
 
 // The evaluation function
-int Agent::evaluate(const Board board) {
-	int aMax = count(board, board.getComputer());
-	int aMin = count(board, board.getOpponent());
-	int score = aMax - aMin;
+int Agent::evaluate(const Board board, const int player, const int opponent) {
+	int aMax = count(board, player);
+	int aMin = count(board, opponent);
+	/*
+	   if (aMax == 0)
+	   return -4;
+	   if (aMin == 0)
+	   return 4;
+	   */
+	int score;
+	if (board.getBitset().count() < 32) {
+		score = 2 * aMax - aMin;
+	} else {
+		score = aMax - aMin * 2;
+	}
 	return score;
 
 }

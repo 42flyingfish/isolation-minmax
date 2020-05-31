@@ -14,7 +14,8 @@ void printBoard(const Board board) {
 	auto oit = opponentLog.begin();
 
 
-	std::cout << "  1 2 3 4 5 6 7 8     Computer vs. Opponent\n";
+	std::cout << " TURN COMPLETE" << std::endl;
+	std::cout << "  1 2 3 4 5 6 7 8     Computer vs. Opponent" << std::endl;
 	for (unsigned int i = 0; i < 8; ++i) {
 		std::cout << char('A' + i);
 		for (int j = 0; j < 8; ++j) {
