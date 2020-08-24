@@ -227,7 +227,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			board.moveOpponent(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -341,7 +341,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			board.moveOpponent(j);
+			next.moveOpponent(j);
 			int value = algoMax(flag, i, alpha, beta, next);
 			if (value < beta) {
 				beta = value;
@@ -380,7 +380,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 				break;
 			}
 			Board next = board;
-			board.moveComputer(j);
+			next.moveComputer(j);
 			int value = algoMin(flag, i, alpha, beta, next);
 			if (value > alpha) {
 				alpha = value;
