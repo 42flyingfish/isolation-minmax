@@ -9,7 +9,6 @@ Board::Board() {
 	board.set(computer);
 	board.set(opponent);
 }
-
 Board::Board(const int x, const int y) : computer{x}, opponent{y} {
 	board = 0;
 	board.set(computer);
@@ -98,6 +97,164 @@ bool Board::canMoveFrom(const int pos) const {
 		return true;
 
 	return false;
+}
+
+std::vector<Board> Board::expandComp() const {
+	std::vector<Board> children {};
+
+	auto operation = [this, & children ] (auto i) {
+		auto next = *this;
+		next.moveComputerNoLogging(i);
+		children.push_back(std::move(next));
+	};
+
+	// move down right
+	for (int i = 9 + getComputer(); i%8 > getComputer()%8 && i < 64; i+=9) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move up left
+	for (int i = -9 + getComputer(); i%8 < getComputer() %8 && i > 0; i-=9) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move down left
+	for (int i = 7 + getComputer(); i%8 < getComputer() %8  && i < 64; i+=7) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move up right
+	for (int i = -7 + getComputer(); i%8 > getComputer()%8 && i > 0; i-=7) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move down
+	for (int i = 8 + getComputer(); i < 64; i+=8) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move up
+	for (int i = -8 + getComputer(); i > 0; i-=8) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+
+	// move left
+	for (int i = getComputer() -1; i%8 < 7 && i > 0; --i) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+
+	// move right
+	for (int i = getComputer() +1; i%8 > 0; ++i) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	return children;
+
+}
+
+std::vector<Board> Board::expandOpp() const {
+	std::vector<Board> children {};
+
+	auto operation = [this, & children ] (auto i) {
+		auto next = *this;
+		next.moveOpponentNoLogging(i);
+		children.push_back(std::move(next));
+	};
+
+	// move down right
+	for (int i = 9 + getOpponent(); i%8 > getOpponent()%8 && i < 64; i+=9) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move up left
+	for (int i = -9 + getOpponent(); i%8 < getOpponent() %8 && i > 0; i-=9) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move down left
+	for (int i = 7 + getOpponent(); i%8 < getOpponent() %8  && i < 64; i+=7) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move up right
+	for (int i = -7 + getOpponent(); i%8 > getOpponent()%8 && i > 0; i-=7) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move down
+	for (int i = 8 + getOpponent(); i < 64; i+=8) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	// move up
+	for (int i = -8 + getOpponent(); i > 0; i-=8) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+
+	// move left
+	for (int i = getOpponent() -1; i%8 < 7 && i > 0; --i) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+
+	// move right
+	for (int i = getOpponent() +1; i%8 > 0; ++i) {
+		if(board.test(i)) {
+			break;
+		}
+		operation(i);
+	}
+
+	return children;
+
 }
 
 void Board::swapPlayer() {
