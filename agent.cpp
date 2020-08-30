@@ -54,85 +54,22 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 	std::priority_queue<Orders> nextMoves {};
 	int depth{0};
 
-	auto operation = [&](auto i, auto depth) {
-		Board next = board;
-		next.moveComputerNoLogging(i);
-		int value = algoMin(flag, depth, alpha, beta, next);
-		if (value > alpha) {
-			alpha = value;
-			move = i;
-		}
-		//current.push(Orders{move, value});
-		nextMoves.push({.move = i, .weight = value});
 
-	};
+	auto successors = board.expandComp();
 
 	try {
-		// move down right
-		for (int j = 9 + board.getComputer(); j%8 > board.getComputer()%8 && j < 64; j+=9) {
-			if(board.test(j)) {
-				break;
+		for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
+			Board next = board;
+			next.moveComputerNoLogging(*state);
+			int value = algoMin(flag, depth, alpha, beta, next);
+			if (value > alpha) {
+				alpha = value;
+				move = *state;
 			}
-			operation(j, depth);
+			nextMoves.push({.move = *state, .weight = value});
+
 		}
 
-		// move up left
-		for (int j = -9 + board.getComputer(); j%8 < board.getComputer() %8 && j > 0; j-=9) {
-			if(board.test(j)) {
-				break;
-			}
-			operation(j, depth);
-		}
-
-		// move down left
-		for (int j = 7 + board.getComputer(); j%8 < board.getComputer() %8  && j < 64; j+=7) {
-			if(board.test(j)) {
-				break;
-			}
-			operation(j, depth);
-		}
-
-		// move up right
-		for (int j = -7 + board.getComputer(); j%8 > board.getComputer()%8 && j > 0; j-=7) {
-			if(board.test(j)) {
-				break;
-			}
-			operation(j, depth);
-		}
-
-		// move down
-		for (int j = 8 + board.getComputer(); j < 64; j+=8) {
-			if(board.test(j)) {
-				break;
-			}
-			operation(j, depth);
-		}
-
-		// move up
-		for (int j = -8 + board.getComputer(); j > 0; j-=8) {
-			if(board.test(j)) {
-				break;
-			}
-			operation(j, depth);
-		}
-
-
-		// move left
-		for (int j = board.getComputer() -1; j%8 < 7 && j > 0; --j) {
-			if(board.test(j)) {
-				break;
-			}
-			operation(j, depth);
-		}
-
-
-		// move right
-		for (int j = board.getComputer() +1; j%8 > 0; ++j) {
-			if(board.test(j)) {
-				break;
-			}
-			operation(j, depth);
-		}
 		for (depth = 1; depth <= 64; ++depth) {
 			current.swap(nextMoves);
 			while(!current.empty()) {
@@ -173,7 +110,9 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	auto successors = board.expandOpp();
 
 	for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
-		int value = algoMax(flag, depth-1, alpha, beta, *state);
+		Board next = board;
+		next.moveOpponentNoLogging(*state);
+		int value = algoMax(flag, depth-1, alpha, beta, next);
 		if (value <= alpha) {
 			return alpha;
 		}
@@ -198,7 +137,9 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	auto successors = board.expandComp();
 
 	for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
-		int value = algoMin(flag, depth-1, alpha, beta, *state);
+		Board next = board;
+		next.moveComputerNoLogging(*state);
+		int value = algoMin(flag, depth-1, alpha, beta, next);
 		if (value >= beta) {
 			return value;
 		}

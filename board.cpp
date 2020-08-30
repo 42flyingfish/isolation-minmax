@@ -99,13 +99,11 @@ bool Board::canMoveFrom(const int pos) const {
 	return false;
 }
 
-std::vector<Board> Board::expandComp() const {
-	std::vector<Board> children {};
+std::vector<int> Board::expandComp() const {
+	std::vector<int> children {};
 
 	auto operation = [this, & children ] (auto i) {
-		auto next = *this;
-		next.moveComputerNoLogging(i);
-		children.push_back(std::move(next));
+		children.push_back(i);
 	};
 
 	// move down right
@@ -178,13 +176,11 @@ std::vector<Board> Board::expandComp() const {
 
 }
 
-std::vector<Board> Board::expandOpp() const {
-	std::vector<Board> children {};
+std::vector<int> Board::expandOpp() const {
+	std::vector<int> children {};
 
 	auto operation = [this, & children ] (auto i) {
-		auto next = *this;
-		next.moveOpponentNoLogging(i);
-		children.push_back(std::move(next));
+		children.push_back(i);
 	};
 
 	// move down right
