@@ -172,6 +172,10 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 
 	auto successors = board.expandOpp();
 
+	if (successors.empty()) {
+		return -evaluate(board, board.getOpponent(), board.getComputer());
+	}
+
 	for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
 		int value = algoMax(flag, depth-1, alpha, beta, *state);
 		if (value <= alpha) {
@@ -196,6 +200,10 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	}
 
 	auto successors = board.expandComp();
+
+	if (successors.empty()) {
+		return evaluate(board, board.getComputer(), board.getOpponent());
+	}
 
 	for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
 		int value = algoMin(flag, depth-1, alpha, beta, *state);
