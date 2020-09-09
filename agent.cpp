@@ -34,8 +34,8 @@ int Agent::wrapper(const Board board) {
 
 		// set timeout flag to be read by thread
 		flag = true;
-		// waiting for minMax to finish
 	}
+	// waiting for minMax to finish
 	worker.join();
 	return move;
 } 
@@ -43,50 +43,48 @@ int Agent::wrapper(const Board board) {
 
 void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board board, int & move) {
 
-
 	// init alpha beta
-	int alpha{std::numeric_limits<int>::min()};
-	int beta{std::numeric_limits<int>::max()};
-	std::priority_queue<Orders> current {};
-	std::priority_queue<Orders> nextMoves {};
-	int depth{0};
-
+	constexpr int alpha{std::numeric_limits<int>::min()};
+	constexpr int beta{std::numeric_limits<int>::max()};
 
 	auto successors = board.expandComp();
+	auto depth = 1;
+
 
 	try {
-		for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
+		int score{alpha};
+		for (auto it = successors.cbegin(); it != successors.cend(); ++it) {
 			Board next = board;
-			next.moveComputerNoLogging(*state);
-			int value = algoMin(flag, depth, alpha, beta, next);
-			if (value > alpha) {
-				alpha = value;
-				move = *state;
+			next.moveComputerNoLogging(*it);
+			auto lscore = algoMin(flag, 0, alpha, beta, next);
+			if (lscore > score) {
+				lscore = score;
+				move = *it;
 			}
-			nextMoves.push({.move = *state, .weight = value});
-
 		}
 
-		for (depth = 1; depth <= 64; ++depth) {
-			current.swap(nextMoves);
-			while(!current.empty()) {
-				auto item = current.top();
-				current.pop();
+		for (depth; depth <= 64; ++depth) {
+
+			Board leader = board;
+			leader.moveComputerNoLogging(move);
+			int score = algoMin(flag, depth, alpha, beta, leader);
+
+			for (auto it = successors.cbegin(); it != successors.cend(); ++it) {
 				Board next = board;
-				next.moveComputerNoLogging(item.move);
-				int value = algoMin(flag, depth, alpha, beta, next);
-				if (value > alpha) {
-					alpha = value;
-					move = item.move;
+				next.moveComputerNoLogging(*it);
+				auto lscore = algoMin(flag, depth, alpha, beta, next);
+				if (lscore > score) {
+					lscore = score;
+					move = *it;
 				}
-				nextMoves.push({.move = item.move, .weight = value});
 			}
 		}
 
 	} catch(std::runtime_error & e) {
-		std::cout << "Depth reached " << depth << std::endl;
+		std::cout << "Reached a depth of " << depth << "\n\n";
 		return;
 	}
+
 	// alert the caller that we have finished
 
 	cv.notify_one();
