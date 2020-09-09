@@ -22,13 +22,12 @@ int Agent::getAiTurn(const Board board) {
 // Also accepts an early notification through the condition_variable
 //    so that it does not always take the full alloted time
 int Agent::wrapper(const Board board) {
-	std::mutex m, critical;
+	std::mutex m;
 	std::condition_variable cv;
 	std::atomic<bool> flag {false};
 	int move;
 
-	std::thread third(&Agent::minMax, this, std::ref(cv), std::ref(flag), board, std::ref(critical), std::ref(move));
-	third.detach();
+	std::thread worker(&Agent::minMax, this, std::ref(cv), std::ref(flag), board, std::ref(move));
 
 	std::unique_lock<std::mutex> l{m};
 	if (cv.wait_for(l, std::chrono::seconds(20)) == std::cv_status::timeout) {
@@ -36,16 +35,14 @@ int Agent::wrapper(const Board board) {
 		// set timeout flag to be read by thread
 		flag = true;
 		// waiting for minMax to finish
-		critical.lock();
-		critical.unlock();
 	}
+	worker.join();
 	return move;
 } 
 
 
-void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board board, std::mutex & critical, int & move) {
+void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const Board board, int & move) {
 
-	critical.lock();
 
 	// init alpha beta
 	int alpha{std::numeric_limits<int>::min()};
@@ -88,13 +85,10 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 
 	} catch(std::runtime_error & e) {
 		std::cout << "Depth reached " << depth << std::endl;
-		critical.unlock();
 		return;
 	}
 	// alert the caller that we have finished
 
-	// set move and unlock
-	critical.unlock();
 	cv.notify_one();
 } 
 
