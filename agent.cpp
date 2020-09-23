@@ -1,15 +1,12 @@
 #include <iostream>
 #include "agent.h"
 #include "board.h"
-#include "orders.h"
-
 #include <atomic> // for std::atomic<bool> 
 #include <chrono> // for std::chrono::seconds
 #include <condition_variable> // for cv.wait_for
 #include <mutex> // used with std::condition_variable
 #include <thread> // to run the timeout and minMax function in threads
 #include <limits> // to init alpha/beta small/big number
-#include <queue>
 
 
 // returns a value to move

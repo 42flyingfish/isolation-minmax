@@ -11,7 +11,7 @@ main.o: main.cpp board.h agent.h interface.h
 
 board.o: board.cpp board.h
 
-agent.o: agent.cpp agent.h orders.h
+agent.o: agent.cpp agent.h
 
 interface.o: interface.cpp interface.h board.h
 
