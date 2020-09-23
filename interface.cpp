@@ -106,6 +106,9 @@ void printMove(const int move) {
 
 int getUserInput(const Board board) {
 	std::string value;
+
+	auto successor = board.expandOpp();
+
 	while (1) {
 		std::cout << "Enter opponent’s move: ";
 		if(!std::getline(std::cin, value)) {
@@ -122,7 +125,12 @@ int getUserInput(const Board board) {
 			if (board.test(move)) {
 				std::cout << "Already blocked\n";
 			} else {
-				return move;
+				for (auto state = successor.cbegin(); state != successor.cend(); ++state) {
+					if (*state == move) {
+						return move;
+					}
+				}
+				std::cout << "Not a valid move\n";
 			}
 		}
 	}

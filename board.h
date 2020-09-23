@@ -32,6 +32,9 @@ class Board {
 		int getComputer() const;
 		int getOpponent() const;
 
+		std::vector<int> expandComp() const;
+		std::vector<int> expandOpp() const;
+
 		std::vector<int> getCLog() const;
 		std::vector<int> getOLog() const;
 

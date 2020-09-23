@@ -13,7 +13,7 @@ class Agent {
 		int wrapper(const Board);
 		int algoMin(std::atomic<bool> &, const int, int, int, Board);
 		int algoMax(std::atomic<bool> &, const int, int, int, Board);
-		void minMax(std::condition_variable &, std::atomic<bool> &, const Board, std::mutex &, int &);
+		void minMax(std::condition_variable &, std::atomic<bool> &, const Board, int &);
 
 		// the evelauation function
 		int evaluate(const Board, const int, const int);
