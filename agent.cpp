@@ -45,40 +45,38 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 	constexpr int beta{std::numeric_limits<int>::max()};
 
 	auto successors = board.expandComp();
-	auto depth = 1;
 
 
 	try {
 		int score{alpha};
-		for (auto it = successors.cbegin(); it != successors.cend(); ++it) {
+		for (const auto & it : successors) {
 			Board next = board;
-			next.moveComputerNoLogging(*it);
+			next.moveComputerNoLogging(it);
 			auto lscore = algoMin(flag, 0, alpha, beta, next);
 			if (lscore > score) {
 				lscore = score;
-				move = *it;
+				move = it;
 			}
 		}
 
-		for (depth; depth <= 64; ++depth) {
+		for (int depth = 0; depth <= 64; ++depth) {
 
 			Board leader = board;
 			leader.moveComputerNoLogging(move);
 			int score = algoMin(flag, depth, alpha, beta, leader);
 
-			for (auto it = successors.cbegin(); it != successors.cend(); ++it) {
+			for (const auto it : successors) {
 				Board next = board;
-				next.moveComputerNoLogging(*it);
+				next.moveComputerNoLogging(it);
 				auto lscore = algoMin(flag, depth, alpha, beta, next);
 				if (lscore > score) {
 					lscore = score;
-					move = *it;
+					move = it;
 				}
 			}
 		}
 
 	} catch(std::runtime_error & e) {
-		std::cout << "Reached a depth of " << depth << "\n\n";
 		return;
 	}
 
@@ -102,9 +100,9 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 		return -evaluate(board, board.getOpponent(), board.getComputer());
 	}
 
-	for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
+	for (const auto & state : successors) {
 		Board next = board;
-		next.moveOpponentNoLogging(*state);
+		next.moveOpponentNoLogging(state);
 		int value = algoMax(flag, depth-1, alpha, beta, next);
 		if (value <= alpha) {
 			return alpha;
@@ -133,9 +131,9 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 		return evaluate(board, board.getComputer(), board.getOpponent());
 	}
 
-	for (auto state = successors.cbegin(); state != successors.cend(); ++state) {
+	for (const auto & state : successors) {
 		Board next = board;
-		next.moveComputerNoLogging(*state);
+		next.moveComputerNoLogging(state);
 		int value = algoMin(flag, depth-1, alpha, beta, next);
 		if (value >= beta) {
 			return value;
