@@ -65,7 +65,7 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 			leader.moveComputerNoLogging(move);
 			int score = algoMin(flag, depth, alpha, beta, leader);
 
-			for (const auto it : successors) {
+			for (const auto & it : successors) {
 				Board next = board;
 				next.moveComputerNoLogging(it);
 				auto lscore = algoMin(flag, depth, alpha, beta, next);
