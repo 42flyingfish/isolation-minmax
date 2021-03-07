@@ -102,16 +102,12 @@ bool Board::canMoveFrom(const int pos) const {
 std::vector<int> Board::expandComp() const {
 	std::vector<int> children {};
 
-	auto operation = [this, & children ] (auto i) {
-		children.push_back(i);
-	};
-
 	// move down right
 	for (int i = 9 + getComputer(); i%8 > getComputer()%8 && i < 64; i+=9) {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move up left
@@ -119,7 +115,7 @@ std::vector<int> Board::expandComp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move down left
@@ -127,7 +123,7 @@ std::vector<int> Board::expandComp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move up right
@@ -135,7 +131,7 @@ std::vector<int> Board::expandComp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move down
@@ -143,7 +139,7 @@ std::vector<int> Board::expandComp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move up
@@ -151,7 +147,7 @@ std::vector<int> Board::expandComp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 
@@ -160,7 +156,7 @@ std::vector<int> Board::expandComp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 
@@ -169,7 +165,7 @@ std::vector<int> Board::expandComp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	return children;
@@ -179,16 +175,12 @@ std::vector<int> Board::expandComp() const {
 std::vector<int> Board::expandOpp() const {
 	std::vector<int> children {};
 
-	auto operation = [this, & children ] (auto i) {
-		children.push_back(i);
-	};
-
 	// move down right
 	for (int i = 9 + getOpponent(); i%8 > getOpponent()%8 && i < 64; i+=9) {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move up left
@@ -196,7 +188,7 @@ std::vector<int> Board::expandOpp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move down left
@@ -204,7 +196,7 @@ std::vector<int> Board::expandOpp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move up right
@@ -212,7 +204,7 @@ std::vector<int> Board::expandOpp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move down
@@ -220,7 +212,7 @@ std::vector<int> Board::expandOpp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	// move up
@@ -228,7 +220,7 @@ std::vector<int> Board::expandOpp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 
@@ -237,7 +229,7 @@ std::vector<int> Board::expandOpp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 
@@ -246,7 +238,7 @@ std::vector<int> Board::expandOpp() const {
 		if(board.test(i)) {
 			break;
 		}
-		operation(i);
+		children.push_back(i);
 	}
 
 	return children;
