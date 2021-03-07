@@ -45,13 +45,18 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 	constexpr int beta{std::numeric_limits<int>::max()};
 
 	auto successors = board.expandComp();
+#if DEBUG
+	int val{};
+	
+	counter = 0;
+#endif
 
 
 	try {
 		int score{alpha};
 		for (const auto & it : successors) {
 			Board next = board;
-			next.moveComputerNoLogging(it);
+			next.moveComputer(it);
 			auto lscore = algoMin(flag, 0, alpha, beta, next);
 			if (lscore > score) {
 				lscore = score;
@@ -60,14 +65,17 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 		}
 
 		for (int depth = 0; depth <= 64; ++depth) {
+#if DEBUG
+			val = depth;
+#endif
 
 			Board leader = board;
-			leader.moveComputerNoLogging(move);
+			leader.moveComputer(move);
 			int score = algoMin(flag, depth, alpha, beta, leader);
 
 			for (const auto & it : successors) {
 				Board next = board;
-				next.moveComputerNoLogging(it);
+				next.moveComputer(it);
 				auto lscore = algoMin(flag, depth, alpha, beta, next);
 				if (lscore > score) {
 					lscore = score;
@@ -77,6 +85,10 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 		}
 
 	} catch(std::runtime_error & e) {
+#if DEBUG
+		std::cout << "Depth is " << val << std::endl;
+		std::cout << "Counter is " << counter << std::endl;
+#endif
 		return;
 	}
 
@@ -86,6 +98,9 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, const
 } 
 
 int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
+#if DEBUG
+	++counter;
+#endif
 	if (depth == 0 ) {
 		return -evaluate(board, board.getOpponent(), board.getComputer());
 	}
@@ -102,7 +117,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 
 	for (const auto & state : successors) {
 		Board next = board;
-		next.moveOpponentNoLogging(state);
+		next.moveOpponent(state);
 		int value = algoMax(flag, depth-1, alpha, beta, next);
 		if (value <= alpha) {
 			return alpha;
@@ -117,6 +132,9 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 }
 
 int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int beta, Board board) {
+#if DEBUG
+	++counter;
+#endif
 	if (depth == 0 ) {
 		return evaluate(board, board.getComputer(), board.getOpponent());
 	}
@@ -133,7 +151,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 
 	for (const auto & state : successors) {
 		Board next = board;
-		next.moveComputerNoLogging(state);
+		next.moveComputer(state);
 		int value = algoMin(flag, depth-1, alpha, beta, next);
 		if (value >= beta) {
 			return value;

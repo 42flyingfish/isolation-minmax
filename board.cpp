@@ -18,23 +18,21 @@ Board::Board(const int x, const int y) : computer{x}, opponent{y} {
 void Board::moveComputer(const int value) {
 	board.set(value);
 	computer = value;
-	computerLog.push_back(value);
-}
-
-void Board::moveComputerNoLogging(const int value) {
-	board.set(value);
-	computer = value;
 }
 
 void Board::moveOpponent(const int value) {
 	board.set(value);
 	opponent = value;
-	opponentLog.push_back(value);
 }
 
-void Board::moveOpponentNoLogging(const int value) {
-	board.set(value);
-	opponent = value;
+void Board::undoComputer( const int old) {
+	board.reset(computer);
+	computer = old;
+}
+
+void Board::undoOpponent(const int old) {
+	board.reset(opponent);
+	opponent = old;
 }
 
 bool Board::test(const size_t pos) const {
@@ -261,12 +259,4 @@ void Board::reset() {
 
 std::bitset<64> Board::getBitset() const {
 	return board;
-}
-
-std::vector<int> Board::getCLog() const {
-	return computerLog;
-}
-
-std::vector<int> Board::getOLog() const {
-	return opponentLog;
 }

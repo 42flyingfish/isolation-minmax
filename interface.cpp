@@ -1,14 +1,13 @@
 #include "interface.h"
-#include "board.h"
 #include <iostream>
 #include <vector>
 #include <string>
 
 // prints board state
-void printBoard(const Board board) {
+void printBoard(const Board board, const Log log) {
 
-	std::vector<int> computerLog = board.getCLog();
-	std::vector<int> opponentLog = board.getOLog();
+	std::vector<int> computerLog = log.getCLog();
+	std::vector<int> opponentLog = log.getOLog();
 
 	auto cit = computerLog.begin();
 	auto oit = opponentLog.begin();

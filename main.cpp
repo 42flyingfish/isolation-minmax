@@ -1,31 +1,33 @@
 #include <iostream>
 #include "agent.h"
 #include "board.h"
+#include "log.h"
 #include "interface.h"
 
-void playerTurn(Board & board);
-void computerTurn(Board & board, Agent & computer);
+void playerTurn(Board & board, Log & log);
+void computerTurn(Board & board, Agent & computer, Log & log);
 
 int main() {
 	Board board{};
 	Agent computer{};
+	Log log{};
 
-	printBoard(board);
+	printBoard(board, log);
 	std::cout << std::endl;
 
 	if (computerStartGame()) 
-		computerTurn(board, computer);
+		computerTurn(board, computer, log);
 
 	while (1) {
 
-		playerTurn(board);
+		playerTurn(board, log);
 	
 
 		if (board.gameOver()) {
 			break;
 		}
 
-		computerTurn(board, computer);
+		computerTurn(board, computer, log);
 
 		if (board.gameOver()) {
 			break;
@@ -36,17 +38,19 @@ int main() {
 	return 0;
 }
 
-void playerTurn(Board & board) {
+void playerTurn(Board & board, Log & log) {
 	int value = getUserInput(board);
 	std::cout << std::endl;
 	board.moveOpponent(value);
-	printBoard(board);
+	log.recordOpponent(value);
+	printBoard(board, log);
 }
 
-void computerTurn(Board & board, Agent & computer) {
+void computerTurn(Board & board, Agent & computer, Log & log) {
 	int value = computer.getAiTurn(board);
 	board.moveComputer(value);
-	printBoard(board);
+	log.recordComputer(value);
+	printBoard(board, log);
 	std::cout << "Computer’s move is: ";
 	printMove(value);
 	std::cout << std::endl << std::endl;

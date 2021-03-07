@@ -9,8 +9,6 @@ class Board {
 		std::bitset<64> board;
 		int computer;
 		int opponent;
-		std::vector<int> computerLog;
-		std::vector<int> opponentLog;
 
 		bool canMoveFrom(const int) const;
 
@@ -21,10 +19,8 @@ class Board {
 		void moveComputer(const int);
 		void moveOpponent(const int);
 
-		// this may or may not be a speed boost
-		// as it does interact with the vector
-		void moveComputerNoLogging(const int);
-		void moveOpponentNoLogging(const int);
+		void undoComputer(const int old);
+		void undoOpponent(const int old);
 
 		bool test(const size_t) const;
 		bool gameOver() const;
@@ -34,10 +30,6 @@ class Board {
 
 		std::vector<int> expandComp() const;
 		std::vector<int> expandOpp() const;
-
-		std::vector<int> getCLog() const;
-		std::vector<int> getOLog() const;
-
 
 		bool operator==(const Board &other) const;
 
