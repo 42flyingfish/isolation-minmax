@@ -45,10 +45,10 @@ The current heuristic is rather simple. It is the difference of the number of mo
 * The idea behind this if some move is really good in one board state, it might be a great move in a similar board state.
 * It might be a good idea to record the moves that produced a cutoff at a certain depth and try those again.
 
-## Better GUI
+### Better GUI
 * The console interface is a bit clunky and could use an update.
 
-## Configuration Options
+### Configuration Options
 * There is currently no way to configure the game outside of who gets to go first.
   * It might be nice to configure the timeout, runtime information, evaluation function, or allow the AI to compete with itself.
   * Early on in the project, there was an AI vs. AI feature that was used for testing. This was removed upon project submission.
