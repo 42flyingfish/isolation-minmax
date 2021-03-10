@@ -1,6 +1,5 @@
 #include <iostream>
 #include "agent.h"
-#include "board.h"
 #include <atomic> // for std::atomic<bool> 
 #include <chrono> // for std::chrono::seconds
 #include <condition_variable> // for cv.wait_for

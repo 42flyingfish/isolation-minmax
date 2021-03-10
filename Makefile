@@ -1,6 +1,6 @@
 CXX := g++
 LDLIBS := -lpthread
-CXXFLAGS = -std=c++14
+CXXFLAGS = -std=c++17 -D DEBUG
 
 all: ejplattP4 
 
@@ -11,7 +11,7 @@ main.o: main.cpp board.h agent.h interface.h log.h
 
 board.o: board.cpp board.h
 
-agent.o: agent.cpp agent.h
+agent.o: agent.cpp agent.h board.h
 
 interface.o: interface.cpp interface.h board.h log.h
 
