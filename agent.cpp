@@ -7,6 +7,11 @@
 #include <thread> // to run the timeout and minMax function in threads
 #include <limits> // to init alpha/beta small/big number
 
+Agent::Agent() {
+	std::cout << "Starting AI\n";
+	std::cout << "Ready AI\n";
+
+};
 
 // returns a value to move
 int Agent::getAiTurn(const Board board) {
@@ -48,6 +53,9 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, Board
 #if DEBUG
 	int val{};
 	counter = 0;
+	prunedHits = 0;
+	regularHits = 0;
+	collisions = 0;
 #endif
 	try {
 		int score{alpha};
@@ -84,6 +92,10 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, Board
 #if DEBUG
 		std::cout << "Depth is " << val << std::endl;
 		std::cout << "Counter is " << counter << std::endl;
+		std::cout << "Pruned Table Hits is " << prunedHits << std::endl;
+		std::cout << "Regular Table Hits is " << regularHits << std::endl;
+		std::cout << "Missed Table Hits is " << collisions << std::endl;
+
 #endif
 		return;
 	}
@@ -104,6 +116,28 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	}
 
 	auto priorMove{board.getOpponent()};
+	auto record{table.lookUp(board.getHash())};
+	if (record != -1) {
+#if DEBUG
+		++regularHits;
+#endif
+		board.moveOpponent(record);
+		int value = algoMax(flag, depth-1, alpha, beta, board);
+		board.undoOpponent(priorMove);
+		if (value <= alpha) {
+#if DEBUG
+			++prunedHits;
+#endif
+			return alpha;
+		} 
+		if (value < beta) {
+			beta = value;
+		}
+	}
+#if DEBUG
+	else ++collisions;
+#endif
+
 	auto successors = board.expandOpp();
 
 	if (successors.empty()) {
@@ -115,9 +149,11 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 		int value = algoMax(flag, depth-1, alpha, beta, board);
 		board.undoOpponent(priorMove);
 		if (value <= alpha) {
+			table.update(board.getHash(), state);
 			return alpha;
 		}
 		if (value < beta) {
+			table.update(board.getHash(), state);
 			beta = value;
 		}
 	}
@@ -138,6 +174,27 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	}
 
 	auto priorMove{board.getComputer()};
+	auto record{table.lookUp(board.getHash())};
+	if (record != -1) {
+#if DEBUG
+		++regularHits;
+#endif
+		board.moveComputer(record);
+		int value = algoMin(flag, depth-1, alpha, beta, board);
+		board.undoComputer(priorMove);
+		if (value >= beta) {
+#if DEBUG
+			++prunedHits;
+#endif
+			return value;
+		}
+		if (value > alpha) {
+			alpha = value;
+		}
+	}
+#ifdef DEBUG
+	else ++collisions;
+#endif
 	auto successors = board.expandComp();
 
 	if (successors.empty()) {
@@ -149,9 +206,11 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 		int value = algoMin(flag, depth-1, alpha, beta, board);
 		board.undoComputer(priorMove);
 		if (value >= beta) {
+			table.update(board.getHash(), state);
 			return value;
 		}
 		if (value > alpha) {
+			table.update(board.getHash(), state);
 			alpha = value;
 		}
 	}

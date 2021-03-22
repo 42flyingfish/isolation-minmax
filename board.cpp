@@ -4,34 +4,39 @@
 
 
 Board::Board() {
-	computer = 0;
-	opponent = 63;
-	board.set(computer);
-	board.set(opponent);
-}
-Board::Board(const int x, const int y) : computer{x}, opponent{y} {
 	board = 0;
-	board.set(computer);
-	board.set(opponent);
+	zobristHash = 0;
+	moveComputer(0);
+	moveOpponent(63);
+}
+Board::Board(const int x, const int y) {
+	board = 0;
+	zobristHash = 0;
+	moveComputer(x);
+	moveOpponent(y);
 }
 
 void Board::moveComputer(const int value) {
 	board.set(value);
 	computer = value;
+	zobristHash ^= ztable.getBlockHash(value);
 }
 
 void Board::moveOpponent(const int value) {
 	board.set(value);
 	opponent = value;
+	zobristHash ^= ztable.getBlockHash(value);
 }
 
 void Board::undoComputer( const int old) {
 	board.reset(computer);
+	zobristHash ^= ztable.getBlockHash(computer);
 	computer = old;
 }
 
 void Board::undoOpponent(const int old) {
 	board.reset(opponent);
+	zobristHash ^= ztable.getBlockHash(opponent);
 	opponent = old;
 }
 
@@ -244,19 +249,22 @@ std::vector<int> Board::expandOpp() const {
 }
 
 void Board::swapPlayer() {
-	int temp = computer;
-	computer = opponent;
-	opponent = temp;
+	std::swap(computer, opponent);
 }
 
 void Board::reset() {
 	board = 0;
-	computer = 0;
-	opponent = 63;
-	board.set(computer);
-	board.set(opponent);
+	zobristHash = 0;
+	moveComputer(0);
+	moveOpponent(63);
 }
 
 std::bitset<64> Board::getBitset() const {
 	return board;
+}
+
+unsigned long long Board::getHash() const {
+	return zobristHash
+		^ ztable.getComputerHash(computer)
+		^ ztable.getOpponentHash(opponent);
 }

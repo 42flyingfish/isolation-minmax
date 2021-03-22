@@ -4,6 +4,7 @@
 #include <atomic>
 #include <condition_variable>
 #include "board.h"
+#include "transposition.h"
 #include <mutex>
 #include <unordered_map>
 
@@ -13,6 +14,9 @@ class Agent {
 
 #ifdef DEBUG
 		long long counter;
+		long long prunedHits;
+		long long regularHits;
+		long long collisions;
 #endif
 		int wrapper(const Board);
 		int algoMin(std::atomic<bool> &, const int, int, int, Board &);
@@ -23,8 +27,10 @@ class Agent {
 		int evaluate(const Board, const int, const int);
 		int count(const Board board, const int playerPosition);
 
+		Transposition table;
+
 	public:
-		Agent() = default;
+		Agent();
 
 		int getAiTurn(const Board);
 

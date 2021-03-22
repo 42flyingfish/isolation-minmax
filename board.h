@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include "zobrist.h"
 #include <bitset>
 #include <vector>
 
@@ -9,6 +10,12 @@ class Board {
 		std::bitset<64> board;
 		int computer;
 		int opponent;
+		long long unsigned zobristHash {};
+		inline static Zobrist ztable = Zobrist(); // This is a c++17 feature
+
+#ifdef DEBUG
+		long long collisions;
+#endif
 
 		bool canMoveFrom(const int) const;
 
@@ -39,6 +46,8 @@ class Board {
 		void reset();
 
 		std::bitset<64> getBitset() const;
+
+		unsigned long long getHash() const;
 };
 
 #endif
