@@ -20,7 +20,7 @@ class Agent {
 
 
 		// the evelauation function
-		int evaluate(const Board, const int, const int);
+		int evaluate(const Board);
 		int count(const Board board, const int playerPosition);
 
 	public:
