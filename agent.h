@@ -24,7 +24,7 @@ class Agent {
 		void minMax(std::condition_variable &, std::atomic<bool> &, Board, int &);
 
 		// the evelauation function
-		int evaluate(const Board, const int, const int);
+		int evaluate(const Board);
 		int count(const Board board, const int playerPosition);
 
 		Transposition table;

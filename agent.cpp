@@ -79,10 +79,10 @@ void Agent::minMax(std::condition_variable & cv, std::atomic<bool> & flag, Board
 
 			for (const auto & it : successors) {
 				board.moveComputer(it);
-				auto lscore = algoMin(flag, depth, alpha, beta, board);
+				auto lscore = algoMin(flag, depth, score, beta, board);
 				board.undoComputer(move);
 				if (lscore > score) {
-					lscore = score;
+					score = lscore;
 					move = it;
 				}
 			}
@@ -108,7 +108,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	++counter;
 #endif
 	if (depth == 0 ) {
-		return -evaluate(board, board.getOpponent(), board.getComputer());
+		return evaluate(board);
 	}
 
 	if (flag) {
@@ -141,7 +141,7 @@ int Agent::algoMin(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	auto successors = board.expandOpp();
 
 	if (successors.empty()) {
-		return -evaluate(board, board.getOpponent(), board.getComputer());
+		return evaluate(board);
 	}
 
 	for (const auto & state : successors) {
@@ -166,7 +166,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	++counter;
 #endif
 	if (depth == 0 ) {
-		return evaluate(board, board.getComputer(), board.getOpponent());
+		return evaluate(board);
 	}
 
 	if (flag) {
@@ -198,7 +198,7 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 	auto successors = board.expandComp();
 
 	if (successors.empty()) {
-		return evaluate(board, board.getComputer(), board.getOpponent());
+		return evaluate(board);
 	}
 
 	for (const auto & state : successors) {
@@ -220,16 +220,10 @@ int Agent::algoMax(std::atomic<bool> & flag, const int depth, int alpha, int bet
 
 
 // The evaluation function
-int Agent::evaluate(const Board board, const int player, const int opponent) {
-	int aMax = count(board, player);
-	int aMin = count(board, opponent);
-	int score;
-	if (board.getBitset().count() < 32) {
-		score = 2 * aMax - aMin;
-	} else {
-		score = aMax - aMin * 2;
-	}
-	return score;
+int Agent::evaluate(const Board board) {
+	int aMax = count(board, board.getComputer());
+	int aMin = count(board, board.getOpponent());
+	return aMax - aMin;
 
 }
 
