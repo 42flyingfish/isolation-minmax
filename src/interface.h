@@ -10,5 +10,4 @@ void printMove(const int);
 int getUserInput(const Board board);
 bool computerStartGame();
 
-
 #endif
