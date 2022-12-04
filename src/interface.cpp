@@ -1,5 +1,6 @@
 #include "interface.h"
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -36,7 +37,7 @@ void printBoard(const Board board, const Log log) {
     if (cit != computerLog.end() || cit != opponentLog.end()) {
 
       // print number
-      std::cout << "        " << i << ". ";
+      std::cout << "        " << i + 1 << ". ";
 
       if (cit != computerLog.end()) {
         printMove(*cit);
@@ -116,9 +117,8 @@ int getUserInput(const Board board) {
       if (board.test(move)) {
         std::cout << "Already blocked\n";
       } else {
-        for (auto state = successor.cbegin(); state != successor.cend();
-             ++state) {
-          if (*state == move) {
+        for (const auto state : successor) {
+          if (state == move) {
             return move;
           }
         }

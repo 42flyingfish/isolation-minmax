@@ -1,5 +1,4 @@
 #include "board.h"
-#include "interface.h"
 #include <vector>
 
 Board::Board() : board{0}, zobristHash{0} {

@@ -7,10 +7,7 @@
 #include <mutex>  // used with std::condition_variable
 #include <thread> // to run the timeout and minMax function in threads
 
-Agent::Agent() {
-  std::cout << "Starting AI\n";
-  std::cout << "Ready AI\n";
-};
+Agent::Agent() { };
 
 // returns a value to move
 int Agent::getAiTurn(const Board board) { return wrapper(board); }
